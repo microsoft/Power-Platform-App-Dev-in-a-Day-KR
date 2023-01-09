@@ -11,10 +11,6 @@ git config --global core.autocrlf input
 sudo wget https://dot.net/v1/dotnet-install.sh -O ~/dotnet-install.sh
 sudo chmod +x ~/dotnet-install.sh
 ~/dotnet-install.sh --version latest
-echo 'export DOTNET_ROOT=$HOME/.dotnet' >> ~/.bashrc
-echo 'export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools' >> ~/.bashrc
-echo 'export DOTNET_ROOT=$HOME/.dotnet' >> ~/.zshrc
-echo 'export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools' >> ~/.zshrc
 
 ## Enable local HTTPS for .NET
 dotnet dev-certs https --trust
@@ -39,7 +35,7 @@ rm CascadiaCode.zip
 
 ## AZURE BICEP CLI ##
 # Uncomment the below to install Azure Bicep CLI.
-# az bicep install
+az bicep install
 
 ## AZURE FUNCTIONS CORE TOOLS ##
 # Uncomment the below to install Azure Functions Core Tools. Make sure you have installed node.js
@@ -112,3 +108,8 @@ sudo chmod +x /usr/local/bin/oh-my-posh
 ## Azure Functions - local.settings.json ##
 # Uncomment the below to install local.settings.json file build without dotfiles integration
 # curl https://raw.githubusercontent.com/justinyoo/devcontainers-dotnet/main/azure-functions/Build-LocalSettingsJson.ps1 > $HOME/Build-LocalSettingsJson.ps1
+
+echo 'export DOTNET_ROOT=$HOME/.dotnet' >> ~/.bashrc
+echo 'export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools' >> ~/.bashrc
+echo 'export DOTNET_ROOT=$HOME/.dotnet' >> ~/.zshrc
+echo 'export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools' >> ~/.zshrc
