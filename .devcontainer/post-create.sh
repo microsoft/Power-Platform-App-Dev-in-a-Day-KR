@@ -11,6 +11,10 @@ git config --global core.autocrlf input
 sudo wget https://dot.net/v1/dotnet-install.sh -O ~/dotnet-install.sh
 sudo chmod +x ~/dotnet-install.sh
 ~/dotnet-install.sh --version latest
+echo 'export DOTNET_ROOT=$HOME/.dotnet' >> ~/.bashrc
+echo 'export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools' >> ~/.bashrc
+echo 'export DOTNET_ROOT=$HOME/.dotnet' >> ~/.zshrc
+echo 'export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools' >> ~/.zshrc
 
 ## Enable local HTTPS for .NET
 dotnet dev-certs https --trust
