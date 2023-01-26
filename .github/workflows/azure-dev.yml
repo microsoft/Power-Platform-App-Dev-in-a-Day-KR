@@ -31,6 +31,9 @@ on:
     #     default: ''
 
 # permissions: write-all
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   # Set matrix #
