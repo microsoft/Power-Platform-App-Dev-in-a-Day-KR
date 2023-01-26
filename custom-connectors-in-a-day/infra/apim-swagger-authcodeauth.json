@@ -1,0 +1,118 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "AUTH-CODE-AUTH",
+    "version": "1.0",
+    "description": "This is the API authN'd by Authorization Code Auth."
+  },
+  "host": "apim-{{AZURE_ENV_NAME}}.azure-api.net",
+  "basePath": "/authcodeauth",
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "oauth2_auth_code_flow": {
+      "type": "oauth2",
+      "scopes": {
+        "https://graph.microsoft.com/.default": "Default scope defined by Microsoft Graph"
+      },
+      "flow": "accessCode",
+      "authorizationUrl": "https://login.microsoftonline.com/{{TENANT_ID}}/oauth2/v2.0/authorize",
+      "tokenUrl": "https://login.microsoftonline.com/{{TENANT_ID}}/oauth2/v2.0/token"
+    }
+  },
+  "security": [
+    {
+      "oauth2_auth_code_flow": [
+        "https://graph.microsoft.com/.default"
+      ]
+    }
+  ],
+  "paths": {
+    "/profile": {
+      "get": {
+        "operationId": "Profile",
+        "summary": "Profile",
+        "tags": [
+          "profile"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "The OK response",
+            "schema": {
+              "$ref": "#/definitions/graphUser"
+            },
+            "examples": {
+              "application/json": {
+                "@odata.context": "string",
+                "id": "string",
+                "businessPhones": [
+                  "string"
+                ],
+                "displayName": "string",
+                "givenName": "string",
+                "surname": "string",
+                "jobTitle": "string",
+                "mail": "string",
+                "mobilePhone": {},
+                "officeLocation": "string",
+                "preferredLanguage": {},
+                "userPrincipalName": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "graphUser": {
+      "type": "object",
+      "properties": {
+        "@odata.context": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "businessPhones": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "givenName": {
+          "type": "string"
+        },
+        "surname": {
+          "type": "string"
+        },
+        "jobTitle": {
+          "type": "string"
+        },
+        "mail": {
+          "type": "string"
+        },
+        "mobilePhone": {
+          "type": "object"
+        },
+        "officeLocation": {
+          "type": "string"
+        },
+        "preferredLanguage": {
+          "type": "object"
+        },
+        "userPrincipalName": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "tags": []
+}

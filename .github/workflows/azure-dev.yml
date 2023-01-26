@@ -1,0 +1,161 @@
+name: 'Azure Dev'
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+  workflow_dispatch:
+    # inputs:
+    #   azure_env_name:
+    #     type: string
+    #     required: false
+    #     description: 'Azure environment (resource) name'
+    #     default: ''
+    #   azure_location:
+    #     type: string
+    #     required: false
+    #     description: 'Azure resource location. Default to `koreacentral`'
+    #     default: 'koreacentral'
+    #   azure_subscription_id:
+    #     type: string
+    #     required: false
+    #     description: 'Azure subscription ID'
+    #     default: ''
+    #   azure_principal_id:
+    #     type: string
+    #     required: false
+    #     description: 'Azure service principal ID'
+    #     default: ''
+
+# permissions: write-all
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  # Set matrix #
+  call_set_matrix:
+    uses: ./.github/workflows/workflow_call_set_matrix.yml
+    with:
+      matrix_path: './custom-connectors-in-a-day/infra/gha-matrix.json'
+
+  # GitHub Workflow Dispatch #
+  # call_set_secrets:
+  #   if: github.event_name == 'workflow_dispatch'
+  #   uses: ./.github/workflows/workflow_call_set_secrets.yml
+  #   needs:
+  #   - call_set_matrix
+  #   secrets: inherit
+  #   with:
+  #     azure_env_name: ${{ github.event.inputs.azure_env_name }}
+  #     azure_location: ${{ github.event.inputs.azure_location }}
+  #     azure_subscription_id: ${{ github.event.inputs.azure_subscription_id }}
+  #     # azure_principal_id: ${{ github.event.inputs.azure_principal_id }}
+
+  # call_build_test_upload_from_dispatch:
+  #   if: github.event_name == 'workflow_dispatch'
+  #   uses: ./.github/workflows/workflow_call_build_test_upload.yml
+  #   needs:
+  #   - call_set_matrix
+  #   # - call_set_secrets
+  #   secrets: inherit
+  #   with:
+  #     matrix_json: ${{ needs.call_set_matrix.outputs.matrix_json }}
+  #     artifact_name: 'app'
+  #     is_pullrequest: 'false'
+
+  # call_deploy_fncapp_from_dispatch:
+  #   if: github.event_name == 'workflow_dispatch'
+  #   uses: ./.github/workflows/workflow_call_deploy_fncapp.yml
+  #   needs:
+  #   - call_set_matrix
+  #   - call_build_test_upload_from_dispatch
+  #   secrets: inherit
+  #   with:
+  #     matrix_json: ${{ needs.call_set_matrix.outputs.matrix_json }}
+  #     artifact_name: 'app'
+  #     github_branch_name: 'main'
+
+  # call_deploy_sttapp_from_dispatch:
+  #   if: github.event_name == 'workflow_dispatch'
+  #   uses: ./.github/workflows/workflow_call_deploy_sttapp.yml
+  #   needs:
+  #   - call_set_matrix
+  #   - call_build_test_upload_from_dispatch
+  #   secrets: inherit
+  #   with:
+  #     matrix_json: ${{ needs.call_set_matrix.outputs.matrix_json }}
+  #     artifact_name: 'app'
+
+  # GitHub Push #
+  # call_build_test_upload_from_push:
+  #   if: github.event_name == 'push'
+  #   uses: ./.github/workflows/workflow_call_build_test_upload.yml
+  #   needs:
+  #   - call_set_matrix
+  #   secrets: inherit
+  #   with:
+  #     matrix_json: ${{ needs.call_set_matrix.outputs.matrix_json }}
+  #     artifact_name: 'app'
+  #     is_pullrequest: 'false'
+
+  # call_deploy_fncapp_from_push:
+  #   if: github.event_name == 'push'
+  #   uses: ./.github/workflows/workflow_call_deploy_fncapp.yml
+  #   needs:
+  #   - call_set_matrix
+  #   - call_build_test_upload_from_push
+  #   secrets: inherit
+  #   with:
+  #     matrix_json: ${{ needs.call_set_matrix.outputs.matrix_json }}
+  #     artifact_name: 'app'
+  #     github_branch_name: 'main'
+
+  # call_deploy_sttapp_from_push:
+  #   if: github.event_name == 'push'
+  #   uses: ./.github/workflows/workflow_call_deploy_sttapp.yml
+  #   needs:
+  #   - call_set_matrix
+  #   - call_build_test_upload_from_push
+  #   secrets: inherit
+  #   with:
+  #     matrix_json: ${{ needs.call_set_matrix.outputs.matrix_json }}
+  #     artifact_name: 'app'
+
+  # GitHub Push or Workflow Dispatch #
+  call_build_test_upload:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/workflow_call_build_test_upload.yml
+    needs:
+    - call_set_matrix
+    secrets: inherit
+    with:
+      matrix_json: ${{ needs.call_set_matrix.outputs.matrix_json }}
+      artifact_name: 'app'
+      is_pullrequest: 'false'
+
+  call_deploy_fncapp:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/workflow_call_deploy_fncapp.yml
+    needs:
+    - call_set_matrix
+    - call_build_test_upload
+    secrets: inherit
+    with:
+      matrix_json: ${{ needs.call_set_matrix.outputs.matrix_json }}
+      artifact_name: 'app'
+      github_branch_name: 'main'
+
+  # GitHub Pull Request #
+  call_build_test:
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/workflow_call_build_test_upload.yml
+    needs:
+    - call_set_matrix
+    with:
+      matrix_json: ${{ needs.call_set_matrix.outputs.matrix_json }}
+      artifact_name: 'app'
+      is_pullrequest: 'true'
