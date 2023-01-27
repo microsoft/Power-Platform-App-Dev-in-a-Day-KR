@@ -1,14 +1,18 @@
-# Project
+# 파워 플랫폼 앱 개발 핸즈온
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+이 핸즈온 랩 예제를 통해 여러분은 아래와 같은 결과를 얻을 수 있습니다.
 
-As the maintainer of this project, please make a few updates:
+* 파워 앱과 파워 오토메이트를 통해 한 회사의 인사관리 시스템을 고도화 시킬 수 있습니다.
+* 파워 플랫폼 커스텀 커넥터를 이용해 다양한 API를 연결하고, 애저 API 관리자를 이용해 좀 더 향상된 보안 설정을 할 수 있습니다.
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+
+## 시작하기
+
+* 파워 앱과 파워 오토메이트를 이용한 인사관리 시스템 고도화
+* [파워 플랫폼 커스텀 커넥터 개발](./custom-connectors-in-a-day/README.md)
+
+
+---
 
 ## Contributing
 
