@@ -11,6 +11,7 @@
 
 ## 목차 ##
 
+0. [GitHub 코드스페이스 환경 설정](./0-codespaces.md)
 1. [Azure Dev CLI 이용 애저 리소스 생성](./1-azd.md)
 2. [API Key 인증 API 통합 및 활용](./2-api-key-auth.md)
 3. [Basic 인증 API 통합 및 활용](./3-basic-auth.md)

@@ -8,9 +8,9 @@ git config --global core.autocrlf input
 
 ## .NET 6
 # Uncomment the below to install .NET 6 side-by-side
-sudo wget https://dot.net/v1/dotnet-install.sh -O ~/dotnet-install.sh
-sudo chmod +x ~/dotnet-install.sh
-~/dotnet-install.sh --version latest
+# sudo wget https://dot.net/v1/dotnet-install.sh -O ~/dotnet-install.sh
+# sudo chmod +x ~/dotnet-install.sh
+# ~/dotnet-install.sh --version latest
 
 ## Enable local HTTPS for .NET
 dotnet dev-certs https --trust
