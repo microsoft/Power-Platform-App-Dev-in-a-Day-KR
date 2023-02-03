@@ -5,7 +5,7 @@ on:
     branches:
     - main
     paths:
-    - 'src/**'
+    - 'custom-connectors-in-a-day/src/**'
   pull_request:
     branches:
     - main
