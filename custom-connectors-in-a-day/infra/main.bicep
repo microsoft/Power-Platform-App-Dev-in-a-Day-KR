@@ -114,19 +114,19 @@ module fncapps './provision-functionApp.bicep' = [for (app, index) in apps: {
 //     }
 // }]
 
-module depscrpt './deploymentScript.bicep' = {
-    name: 'DeploymentScript'
-    scope: rg
-    dependsOn: [
-        apim
-        fncapps
-    ]
-    params: {
-        name: name
-        location: location
-        gitHubAccessToken: gitHubAccessToken
-        gitHubBranchName: gitHubBranchName
-        gitHubUsername: gitHubUsername
-        gitHubRepositoryName: gitHubRepositoryName
-    }
-}
+// module depscrpt './deploymentScript.bicep' = {
+//     name: 'DeploymentScript'
+//     scope: rg
+//     dependsOn: [
+//         apim
+//         fncapps
+//     ]
+//     params: {
+//         name: name
+//         location: location
+//         gitHubAccessToken: gitHubAccessToken
+//         gitHubBranchName: gitHubBranchName
+//         gitHubUsername: gitHubUsername
+//         gitHubRepositoryName: gitHubRepositoryName
+//     }
+// }
