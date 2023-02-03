@@ -5,7 +5,7 @@
       "dockerfile": "./Dockerfile",
       "context": ".",
       "args": {
-        "VARIANT": "7.0"
+        "VARIANT": "6.0"
         // Use this only if you need Razor support, until OmniSharp supports .NET 6 properly
         // "VARIANT": "6.0-focal"
       }
