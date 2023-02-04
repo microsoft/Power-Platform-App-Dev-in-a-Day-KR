@@ -1,6 +1,9 @@
-# Azure Dev CLI 이용 애저 인스턴스 만들기 #
+# 애저 Dev CLI 이용해서 애저 인스턴스 만들기 #
 
 애저에 API 앱을 배포하기 위해서는 우선 애저에 API 앱 인스턴스를 생성해야 합니다. 아래 순서대로 따라해 보세요.
+
+
+## 애저에 리소스 생성하기 ##
 
 1. 아래와 같이 랜덤 숫자를 생성합니다.
 
@@ -8,7 +11,7 @@
     echo $RANDOM
     ```
 
-2. 애저에 로그인합니다. 아래 명령어를 입력하세요.
+2. [애저 Dev CLI][azd cli]를 이용해서 애저에 로그인합니다. 아래 명령어를 입력하세요.
 
     ```bash
     azd login
@@ -61,9 +64,109 @@
     azd up
     ```
 
-9. 애저 포털에서 생성된 리소스를 확인합니다.
+9. [애저 포털][az portal]에서 생성된 리소스를 확인합니다.
 
     ![리소스 프로비저닝 결과][image01]
 
 
+## 애저와 GitHub 연동시키기 ##
+
+1. [GitHub 코드스페이스][gh codespaces]에서 애저와 GitHub을 연동시키기 위해서는 아래와 같이 [애저 CLI][az cli] 명령어를 통해 다시 애저에 로그인합니다.
+
+    ```bash
+    az login --use-device-code
+    ```
+
+2. 로그인 후 현재 설정되어 있는 구독을 확인합니다.
+
+    ```bash
+    az account show
+    ```
+
+3. 만약 현재 설정된 구독과 다른 구독을 사용하고 싶다면 아래 명령어를 통해 현재 로그인한 계정에 물려있는 구독 리스트를 확인합니다.
+
+    ```bash
+    az account list --query "[].name" -o tsv
+    ```
+
+4. 위의 리스트에서 내가 원하는 구독 이름이 `azure-gppb` 이라고 가정합니다. 그러면 아래 명령어를 통해 내가 원하는 구독으로 설정합니다.
+
+    ```bash
+    az account set --subscription azure-gppb
+    ```
+
+5. 다시 아래 명령어를 통해 내가 원하는 구독으로 바뀌었는지 확인합니다.
+
+    ```bash
+    az account show
+    ```
+
+6. 아래 명령어를 통해 애저 로그인을 위한 정보를 생성합니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
+
+    ```bash
+    subscriptionId=$(az account show --query "id" -o tsv)
+    az ad sp create-for-rbac \
+        --name "spn-gppb{{랜덤숫자}}" \
+        --role contributor \
+        --scopes /subscriptions/$subscriptionId/resourceGroups/rg-gppb{{랜덤숫자}} \
+        --sdk-auth
+    ```
+
+    위 명령어를 통해 실행시킨 결과는 대략 아래와 같은 JSON 개체 형식으로 보입니다. `{{CLIENT ID}}`, `{{CLIENT SECRET}}`, `{{구독 ID}}`, `{{테넌트 ID}}` 값은 개인별로 달라질 수 있습니다.
+
+    ```json
+    {
+      "clientId": "{{CLIENT ID}}",
+      "clientSecret": "{{CLIENT SECRET}}",
+      "subscriptionId": "{{구독 ID}}",
+      "tenantId": "{{테넌트 ID}}",
+      "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+      "resourceManagerEndpointUrl": "https://management.azure.com/",
+      "activeDirectoryGraphResourceId": "https://graph.windows.net/",
+      "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+      "galleryEndpointUrl": "https://gallery.azure.com/",
+      "managementEndpointUrl": "https://management.core.windows.net/"
+    }
+    ```
+
+    위 JSON 개체를 복사해 둡니다.
+
+7. GitHub 리포지토리의 `Settings` ➡️ `Secrets and variables` ➡️ `Actions` ➡️ `New repository secret` 메뉴를 클릭합니다.
+
+    ![GitHub 액션 시크릿][image02]
+
+8. 아래와 같이 입력한 후, **Add secret** 버튼을 클릭합니다.
+
+   * Name: `AZURE_CREDENTIALS`
+   * Secret: 앞서 복사해 둔 JSON 개체
+
+    ![GitHub 액션 새 시크릿][image03]
+
+9. 시크릿 입력 결과는 아래와 같습니다.
+
+    ![GitHub 액션 시크릿 입력 결과][image04]
+
+---
+
+여기까지 해서 애저 Dev CLI와 Azure CLI를 이용해서 애저와 깃헙, 그리고 코드스페이스 연동을 마쳤습니다.
+
+* [애저 CLI 더 알아보기][az cli]
+* [애저 Dev CLI 더 알아보기][azd cli]
+
+---
+
+* 댜음 세션: [API Key 인증 API 개발, 애저 API 관리자와 통합, 그리고 커스텀 커넥터 만들기](./2-api-key-auth.md)
+
+
 [image01]: ./images/session01-image01.png
+[image02]: ./images/session01-image02.png
+[image03]: ./images/session01-image03.png
+[image04]: ./images/session01-image04.png
+
+
+[az portal]: https://portal.azure.com?WT.mc_id=dotnet-87051-juyoo
+
+[azd cli]: https://learn.microsoft.com/ko-kr/azure/developer/azure-developer-cli/overview?WT.mc_id=dotnet-87051-juyoo
+[az cli]: https://learn.microsoft.com/ko-kr/cli/azure/what-is-azure-cli?WT.mc_id=dotnet-87051-juyoo
+
+[gh codespaces]: https://github.com/features/codespaces
