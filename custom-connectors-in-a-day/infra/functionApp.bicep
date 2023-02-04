@@ -82,7 +82,8 @@ resource fncapp 'Microsoft.Web/sites@2022-03-01' = {
                 // OpenAPI
                 {
                     name: 'OpenApi__HostNames'
-                    value: 'https://${apim.name}.azure-api.net/${apim.apiPath},https://${functionApp.name}.azurewebsites.net/api'
+                    // value: 'https://${apim.name}.azure-api.net/${apim.apiPath},https://${functionApp.name}.azurewebsites.net/api'
+                    value: 'https://${functionApp.name}.azurewebsites.net/api'
                 }
             ]
         }
