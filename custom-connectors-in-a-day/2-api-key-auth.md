@@ -115,7 +115,7 @@
     popd
     ```
 
-애저 펑션을 이용한 API Key 인증용 API 앱에 OpenAPI 기능을 추가하는 과정이 끝났습니다.
+[애저 펑션][az fncapp]을 이용한 API Key 인증용 API 앱에 OpenAPI 기능을 추가하는 과정이 끝났습니다.
 
 
 ## 2. GitHub 액션 연동후 자동 배포하기 ##
@@ -134,14 +134,103 @@
 
     ![GitHub 액션 워크플로우 실행중][image09]
 
+3. 아래와 같이 모든 GitHub 액션 워크플로우가 성공적으로 실행된 것을 확인합니다.
 
+    ![GitHub 액션 워크플로우 실행 완료][image10]
 
+4. 웹브라우저 주소창에 방금 배포한 API 앱의 주소를 입력하고 Swagger UI 화면이 나오는지 확인합니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
 
+    ```bash
+    https://fncapp-gppb{{랜덤숫자}}-api-key-auth.azurewebsites.net/api/swagger/ui
+    ```
+
+    ![배포된 API 앱 Swagger UI][image11]
+
+5. 아래 그림의 화살표가 가리키는 링크를 클릭해서 OpenAPI 문서를 표시합니다.
+
+    ![배포된 API 앱 OpenAPI 문서 링크][image12]
+
+6. OpenAPI 문서가 표시되는 것을 확인합니다.
+
+    ![배포된 API 앱 OpenAPI 문서 생성][image13]
+
+7. 이 OpenAPI 문서의 주소를 복사해 둡니다. 주소는 대략 아래와 같은 형식입니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
+
+    ```bash
+    https://fncapp-gppb{{랜덤숫자}}-api-key-auth.azurewebsites.net/api/swagger.json
+    ```
+
+[애저 펑션][az fncapp]을 이용한 API 앱 배포가 끝났습니다.
 
 
 ## 3. API 관리자 연동하기 ##
 
-TBD
+이번에는 [애저 API 관리자][az apim]에 방금 배포한 API 앱을 연동시켜 보겠습니다. 아래 순서대로 따라해 보세요.
+
+1. 아래 명령어를 실행시켜 애저 펑션의 API Key를 받아옵니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
+
+    ```bash
+    AZURE_ENV_NAME="gppb{{랜덤숫자}}"
+    resgrp="rg-$AZURE_ENV_NAME"
+    fncapp="fncapp-$AZURE_ENV_NAME-api-key-auth"
+
+    fncappKey=$(az functionapp keys list \
+        -g $resgrp \
+        -n $fncapp \
+        --query "functionKeys.default" -o tsv)
+    ```
+
+2. 아래 명령어를 실행시켜 애저 펑션의 API Key를 API 관리자에 등록합니다.
+
+    ```bash
+    apim="apim-$AZURE_ENV_NAME"
+    az apim nv create \
+        -g $resgrp \
+        -n $apim \
+        --named-value-id "X-FUNCTIONS-KEY-API-KEY-AUTH" \
+        --display-name "X-FUNCTIONS-KEY-API-KEY-AUTH" \
+        --value $fncappKey \
+        --secret true
+    ```
+
+3. 애저 포털의 API 관리자 화면에서 API 앱을 등록합니다. "API" ➡️ "+ Add API" ➡️ "OpenAPI"를 선택하세요.
+
+    ![OpenAPI 문서를 이용해 API 등록][image14]
+
+4. 기본적으로 "Basic"이 선택되어 있는데, 이를 "Full"로 바꿉니다.
+5. OpenAPI specification 필드에 앞서 복사해 둔 OpenAPI 문서 주소를 입력합니다.
+6. API URL suffix 필드에 `apikeyauth`라고 입력합니다.
+7. 마지막으로 **Create** 버튼을 클릭해서 API를 생성합니다.
+
+    ![API 등록 과정][image15]
+
+8. API 등록이 성공한 것을 확인합니다.
+
+    ![API 등록 성공][image16]
+
+9. 애저 펑션이 제공하는 API Key를 캡슐화시킵니다. 아래와 같이 "API AuthN'd by API Key" ➡️ "All operations" ➡️ "Inbound processing" ➡️ "Policies" 항목을 클릭합니다.
+
+    ![API 인바운드 정책 등록][image17]
+
+10. 화면에 보이는 XML 문서의 `policies/inbound` 노드 아래에 아래 내용을 입력한 후 저장합니다.
+
+    ```xml
+    <set-header name="x-functions-key" exists-action="override">
+      <value>{{X-FUNCTIONS-KEY-API-KEY-AUTH}}</value>
+    </set-header>
+    ```
+
+    ![API 인바운드 정책 API Key 등록][image18]
+
+11. 이제 API가 제대로 작동하는지 확인해 보겠습니다. 아래 그림과 같이 "API AuthN'd by API Key" ➡️ "Greeting" ➡️ "Test" 화면으로 이동하세요. 이후 **name** 필드에 값을 입력합니다. 여기서는 `GPPB`라고 입력했습니다. 그리고 **Send** 버튼을 클릭하세요.
+
+    ![API 테스트][image19]
+
+12. 아래와 같이 테스트 결과가 나오는지 확인해 보세요.
+
+    ![API 테스트 결과][image20]
+
+[애저 API 관리자][az apim]에 [애저 펑션][az fncapp] API 앱을 연동시키는 작업이 끝났습니다.
 
 
 ## 4. 파워 플랫폼 커스텀 커넥터 생성하기 ##
@@ -164,6 +253,27 @@ TBD
 [image08]: ./images/session02-image08.png
 [image09]: ./images/session02-image09.png
 [image10]: ./images/session02-image10.png
+[image11]: ./images/session02-image11.png
+[image12]: ./images/session02-image12.png
+[image13]: ./images/session02-image13.png
+[image14]: ./images/session02-image14.png
+[image15]: ./images/session02-image15.png
+[image16]: ./images/session02-image16.png
+[image17]: ./images/session02-image17.png
+[image18]: ./images/session02-image18.png
+[image19]: ./images/session02-image19.png
+[image20]: ./images/session02-image20.png
+[image21]: ./images/session02-image21.png
+[image22]: ./images/session02-image22.png
+[image23]: ./images/session02-image23.png
+[image24]: ./images/session02-image24.png
+[image25]: ./images/session02-image25.png
+[image26]: ./images/session02-image26.png
+[image27]: ./images/session02-image27.png
+[image28]: ./images/session02-image28.png
+[image29]: ./images/session02-image29.png
 
 
 [az fncapp]: https://learn.microsoft.com/ko-kr/azure/azure-functions/functions-overview?WT.mc_id=dotnet-87051-juyoo
+
+[az apim]: https://learn.microsoft.com/ko-kr/azure/api-management/api-management-key-concepts?WT.mc_id=dotnet-87051-juyoo
