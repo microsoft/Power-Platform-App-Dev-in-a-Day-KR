@@ -120,7 +120,15 @@
 
 ## 2. GitHub 액션 연동후 자동 배포하기 ##
 
-TBD
+앞서 개발한 API 앱을 GitHub 액션 워크플로우를 이용해 애저에 배포합니다. 아래 순서대로 따라해 보세요.
+
+1. 변경한 API 앱을 깃헙에 커밋합니다.
+
+    ```bash
+    git add . \
+        && git commit -m "API Key 인증 앱 수정" \
+        && git push origin
+    ```
 
 
 ## 3. API 관리자 연동하기 ##
