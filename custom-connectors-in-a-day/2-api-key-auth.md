@@ -8,6 +8,8 @@
   - [3. API 관리자 연동하기](#3-api-관리자-연동하기)
   - [4. 파워 플랫폼 커스텀 커넥터 생성하기](#4-파워-플랫폼-커스텀-커넥터-생성하기)
   - [5. 파워 앱과 파워 오토메이트에서 커스텀 커넥터 사용하기](#5-파워-앱과-파워-오토메이트에서-커스텀-커넥터-사용하기)
+    - [파워 오토메이트](#파워-오토메이트)
+    - [파워 앱](#파워-앱)
 
 
 ## 1. API 앱 개발하기 ##
@@ -362,7 +364,72 @@
 
 ## 5. 파워 앱과 파워 오토메이트에서 커스텀 커넥터 사용하기 ##
 
-TBD
+### 파워 오토메이트 ###
+
+앞서 만들어 둔 커스텀 커넥터를 파워 오토메이트에서 사용해 보겠습니다. 아래 순서대로 따라해 보세요.
+
+1. "인스턴트 클라우드 흐름"을 선택합니다.
+2. **흐름 이름**은  `API Key 인증 플로우`라고 지정하고, **수동으로 Flow 트리거** 트리거를 선택합니다.
+3. 플로우 디자이너 화면에서 새 액션을 선택할 때 "사용자 지정" 탭을 클릭하면 **API Key Auth**라는 커스텀 커넥터가 보입니다. 이를 선택합니다.
+
+    ![커스텀 커넥터 선택][image36]
+
+4. **API Key Auth** 커스텀 커넥터에 포함되어 있는 **Greeting** 액션을 선택합니다.
+
+    ![커스텀 커넥터 액션 선택][image37]
+
+5. **name** 필드에 값을 입력합니다. 여기서는 `GPPB` 라고 입력하겠습니다.
+
+    ![커스텀 커넥터 액션 값 입력][image38]
+
+6. 파워 오토메이트 워크플로우를 저장한 후 테스트 버튼을 클릭해 플로우를 테스트합니다.
+7. 테스트 결과가 아래와 같이 보입니다.
+
+    ![파워 오토메이트 워크플로우 실행 결과][image39]
+
+파워 오토메이트에서 커스텀 커넥터를 잘 실행했습니다.
+
+
+### 파워 앱 ###
+
+이번에는 파워 앱에서 커스텀 커넥터를 사용해 보겠습니다. 아래 순서대로 따라해 보세요.
+
+1. 빈 캔버스 앱을 하나 준비합니다. **앱 이름**은 `API Key 인증 앱`, **형식**은 `휴대폰`으로 설정합니다.
+2. 캔버스에 **텍스트 입력**, **단추**, **텍스트 레이블** 콘트롤을 하나씩 추가합니다.
+
+    ![파워 앱 캔버스에 콘트롤 추가][image40]
+
+3. 캔버스 왼쪽의 실린더 아이콘을 클릭한 후 **데이터 추가** 버튼을 클릭합니다.
+
+    ![파워 앱에 데이터 추가][image41]
+
+4. 데이터 원본 선택 화면에서 **연결선** 항목 아래 **API Key Auth** 커넥터를 선택합니다.
+
+    ![파워 앱에 커스텀 커넥터 추가][image42]
+
+5. **API Key Auth** 커넥터를 추가했습니다.
+
+    ![파워 앱에 커스텀 커넥터 추가 완료][image43]
+
+6. **단추** 컨트롤을 선택한 후 화면 왼쪽 상단에 **OnSelect**를 선택합니다. 그리고 화면 가운데 상단에 아래와 같은 수식을 입력합니다.
+
+    ```powerfx
+    ClearCollect(
+        greeting,
+        'APIAuthN''dbyAPIKey'.Greeting(TextInput1.Text)
+    )
+    ```
+
+    ![파워 앱 단추 컨트롤에서 커스텀 커넥터 호출][image44]
+
+7. **텍스트 레이블** 컨트롤을 선택한 후 화면 왼쪽 상단에 **Text**를 선택합니다. 그리고 화면 가운데 상단에 아래와 같은 수식을 입력합니다.
+
+    ```powerfx
+    First(greeting).message
+    ```
+
+    ![파워 앱 텍스트 레이블 컨트롤에서 커스텀 커넥터 호출 결과 출력][image45]
+
 
 
 [image01]: ./images/session02-image01.png
@@ -404,6 +471,16 @@ TBD
 [image37]: ./images/session02-image37.png
 [image38]: ./images/session02-image38.png
 [image39]: ./images/session02-image39.png
+[image40]: ./images/session02-image40.png
+[image41]: ./images/session02-image41.png
+[image42]: ./images/session02-image42.png
+[image43]: ./images/session02-image43.png
+[image44]: ./images/session02-image44.png
+[image45]: ./images/session02-image45.png
+[image46]: ./images/session02-image46.png
+[image47]: ./images/session02-image47.png
+[image48]: ./images/session02-image48.png
+[image49]: ./images/session02-image49.png
 
 
 [az fncapp]: https://learn.microsoft.com/ko-kr/azure/azure-functions/functions-overview?WT.mc_id=dotnet-87051-juyoo
