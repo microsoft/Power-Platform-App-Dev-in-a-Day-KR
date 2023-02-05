@@ -112,7 +112,7 @@
     az ad sp create-for-rbac \
         --name "spn-gppb{{랜덤숫자}}" \
         --role contributor \
-        --scopes /subscriptions/$subscriptionId/resourceGroups/rg-gppb{{랜덤숫자}} \
+        --scopes /subscriptions/$subscriptionId \
         --sdk-auth
     ```
 
