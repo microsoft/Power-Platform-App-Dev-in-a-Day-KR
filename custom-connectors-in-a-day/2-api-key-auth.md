@@ -46,7 +46,7 @@
 
     ![새 창에서 API 열기 #1][image01]
 
-6. 아래와 같은 화면이 나타나면 API 앱을 성공적으로 실행시킨 것입니다.
+6. 아래와 같은 화면이 나타나면 API 앱이 성공적으로 작동하는 것입니다.
 
     ![애저 펑션 앱 실행 결과 #1][image02]
 
@@ -91,7 +91,7 @@
 
     ![새 창에서 API 열기 #2][image04]
 
-13. 아래와 같은 화면이 나타나면 API 앱을 성공적으로 실행시킨 것입니다.
+13. 아래와 같은 화면이 나타나면 API 앱이 성공적으로 작동하는 것입니다.
 
     ![애저 펑션 앱 실행 결과 #2][image05]
 
@@ -156,7 +156,7 @@
 
 7. 이 OpenAPI 문서의 주소를 복사해 둡니다. 주소는 대략 아래와 같은 형식입니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
 
-    ```bash
+    ```text
     https://fncapp-gppb{{랜덤숫자}}-api-key-auth.azurewebsites.net/api/swagger.json
     ```
 
@@ -197,9 +197,14 @@
 
     ![OpenAPI 문서를 이용해 API 등록][image14]
 
-4. 기본적으로 "Basic"이 선택되어 있는데, 이를 "Full"로 바꿉니다.
-5. OpenAPI specification 필드에 앞서 복사해 둔 OpenAPI 문서 주소를 입력합니다.
-6. API URL suffix 필드에 `apikeyauth`라고 입력합니다.
+4. 기본적으로 **Basic**이 선택되어 있는데, 이를 **Full**로 바꿉니다.
+5. **OpenAPI specification** 필드에 앞서 복사해 둔 OpenAPI 문서 주소를 입력합니다. OpenAPI 문서 주소는 아래와 같습니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
+
+    ```text
+    https://fncapp-gppb{{랜덤숫자}}-api-key-auth.azurewebsites.net/api/swagger.json
+    ```
+
+6. **API URL suffix** 필드에 `apikeyauth`라고 입력합니다.
 7. 마지막으로 **Create** 버튼을 클릭해서 API를 생성합니다.
 
     ![API 등록 과정][image15]
@@ -235,7 +240,124 @@
 
 ## 4. 파워 플랫폼 커스텀 커넥터 생성하기 ##
 
-TBD
+이번에는 앞서 API 관리자에 등록한 API를 이용해 [파워 플랫폼 커스텀 커넥터][pp cuscon]를 만들어 보겠습니다. 아래 순서대로 따라해 보세요.
+
+1. 아래 명령어를 실행시켜 API 관리자의 구독 키 값을 받아옵니다. 커스텀 커넥터 작성 후 새 커넥션을 생성할 때 필요합니다.
+
+    ```bash
+    apiVersion="2021-08-01"
+    url="/subscriptions/$subscriptionId/resourceGroups/$resgrp/providers/Microsoft.ApiManagement/service/$apim/subscriptions/master/listSecrets"
+
+    az rest --method post --url "$url?api-version=$apiVersion" --query "primaryKey" -o tsv
+    ```
+
+2. API 설정을 확인합니다. "API" ➡️ "API AuthN'd by API Key" ➡️ "Settings" 메뉴로 이동합니다.
+
+    ![API 설정 화면][image21]
+
+3. **Subscription required** 항목에 체크가 되어 있는지 확인합니다. 체크가 되어 있지 않다면 체크한 후 저장합니다.
+
+    ![API 구독 키 설정 확인][image22]
+
+4. "API AuthN'd by API Key" 메뉴 옆에 있는 젬 세 개 버튼을 클릭한 후 "Export" 메뉴를 선택합니다. 그리고, "OpenAPI v2 (JSON)" 메뉴를 클릭합니다.
+
+    ![OpenAPI v2 (JSON) 문서 내보내기][image23]
+
+5. 컴퓨터에 아래와 같이 저장합니다. 기본 지정된 파일명은 `API AuthN'd by API Key.swagger.json`입니다.
+
+    ![OpenAPI 문서 저장하기][image24]
+
+6. 저장한 문서를 열어 아래와 같이 내용이 있는지 확인합니다.
+
+   * OpenAPI 사양 버전
+   * API 관리자 주소
+   * 인증 방식 &ndash; `apiKeyHeader`, `apiKeyQuery`
+
+    ```jsonc
+    {
+      // OpenAPI 사양 버전
+      "swagger": "2.0",
+      ...
+      // API 관리자 주소
+      "host": "apim-gppb{{랜덤숫자}}.azure-api.net",
+      "basePath": "/apikeyauth",
+      "schemes": [
+        "https"
+      ],
+      // 인증 방식 지정
+      "securityDefinitions": {
+        "apiKeyHeader": {
+          "type": "apiKey",
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header"
+        },
+        "apiKeyQuery": {
+          "type": "apiKey",
+          "name": "subscription-key",
+          "in": "query"
+        }
+      },
+      "security": [
+        {
+          "apiKeyHeader": []
+        },
+        {
+          "apiKeyQuery": []
+        }
+      ],
+    ...
+    ```
+
+7. 파워 앱 또는 파워 오토메이트 앱을 실행시킵니다. 여기서는 편의상 파워 오토메이트로 합니다.
+
+   * 파워 앱: [https://make.powerapps.com](https://make.powerapps.com)
+   * 파워 오토메이트: [https://make.powerautomate.com](https://make.powerautomate.com)
+
+8. "데이터" ➡️ "사용자 지정 커넥터" ➡️ "+ 새 사용자 지정 커넥터" ➡️ "OpenAPI 파일 가져오기" 메뉴를 선택합니다.
+
+    ![새 커스텀 커넥터 만들기][image25]
+
+9. 아래와 같이 **커넥터 이름** 필드에 `API Key Auth`라고 입력하고, 앞서 저장했던 `API AuthN'd by API Key.swagger.json` 파일을 불러옵니다. 이후 **계속** 버튼을 클릭합니다.
+
+    ![OpenAPI 문서 불러오기][image26]
+
+10. 일반 정보 화면이 아래와 같이 보입니다. **2. 보안** 탭을 클릭합니다.
+
+    ![커스텀 커넥터 읿반 정보][image27]
+
+11. **인증 형식** 섹션 아래 **API로 구현되는 인증 선택** 필드 값이 `API 키`, **API 키** 섹션 아래 **매개 변수 레이블** 필드 값이 `API 키`, **매개 변수 이름** 필드 값이 `Ocp-Apim-Subscription-Key`, **매개 변수 위치** 필드 값이 `머리글`로 되어 있는 것을 확인합니다.
+
+    ![커스텀 커넥터 보안][image28]
+
+12. **✔️ 커넥터 만들기** 버튼을 클릭해서 커스텀 커넥터 생성을 마무리합니다.
+
+    ![커스텀 커넥터 만들기][image29]
+
+13. 커스텀 커넥터가 만들어졌습니다. **5. 테스트** 메뉴를 클릭해서 이동합니다.
+
+    ![커스텀 커넥터 생성후 테스트 메뉴 이동][image30]
+
+14. 테스트 화면에서 **+ 새 연결** 버튼을 클릭합니다.
+
+    ![커스텀 커넥터 새 연결][image31]
+
+15. 새 창에서 **API 키** 입력창이 나타나면 앞서 받아놓은 API 관리자 구독 키 값을 입력합니다. 이후 **연결 만들기** 버튼을 클릭합니다.
+
+    ![커스텀 커넥터 API 키 입력][image32]
+
+16. 새 연결이 만들어지면 아래 그림과 같이 연결이 나타납니다. 만약 연결이 보이지 않는다면 새로 고침 버튼을 클릭합니다.
+
+    ![커스텀 커넥터 연결 생성][image33]
+
+17. 실제로 커스텀 커넥터가 작동하는지 확인해 보기 위해 아래와 같이 **Greeting** 섹션 아래 **name** 필드에 값을 입력합니다. 여기서는 `GPPB`라고 입력했습니다.
+
+    ![커스텀 커넥터 연결 테스트][image34]
+
+18. 커스텀 커넥터를 통해 API 호출이 성공적으로 이뤄진 것을 확인합니다.
+
+    ![커스텀 커넥터 연결 테스트 성공][image35]
+
+커스텀 커넥터를 만들고 이를 통해 API 앱을 호출하는 것까지 완성했습니다.
 
 
 ## 5. 파워 앱과 파워 오토메이트에서 커스텀 커넥터 사용하기 ##
@@ -272,8 +394,20 @@ TBD
 [image27]: ./images/session02-image27.png
 [image28]: ./images/session02-image28.png
 [image29]: ./images/session02-image29.png
+[image30]: ./images/session02-image30.png
+[image31]: ./images/session02-image31.png
+[image32]: ./images/session02-image32.png
+[image33]: ./images/session02-image33.png
+[image34]: ./images/session02-image34.png
+[image35]: ./images/session02-image35.png
+[image36]: ./images/session02-image36.png
+[image37]: ./images/session02-image37.png
+[image38]: ./images/session02-image38.png
+[image39]: ./images/session02-image39.png
 
 
 [az fncapp]: https://learn.microsoft.com/ko-kr/azure/azure-functions/functions-overview?WT.mc_id=dotnet-87051-juyoo
 
 [az apim]: https://learn.microsoft.com/ko-kr/azure/api-management/api-management-key-concepts?WT.mc_id=dotnet-87051-juyoo
+
+[pp cuscon]: https://learn.microsoft.com/ko-kr/connectors/custom-connectors/?WT.mc_id=dotnet-87051-juyoo
