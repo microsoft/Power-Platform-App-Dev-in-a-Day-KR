@@ -2,12 +2,12 @@
 
 여러분 회사 내부에서만 사용하는 API를 파워 플랫폼에서 사용하고 싶으신가요? 그럴 때 커스텀 커넥터를 활용할 수 있습니다. 이 트랙에서는 아래와 같은 내용을 다룹니다.
 
-* [GitHub 코드스페이스][gh codespaces]를 사용해 백엔드 API를 개발합니다.
-* [애저 Dev CLI][azd cli]를 이용해 애저에 리소스를 한번에 생성합니다.
-* [애저 CLI][az cli]와 [GitHub 액션][gh actions]을 이용해 API를 애저에 배포합니다.
-* API를 애저 백엔드 서비스인 [API 관리자][az apim]와 통합합니다.
-* API 관리자를 통해 구성된 API를 [파워 플랫폼 커스텀 커넥터][pp cuscon]로 만듭니다.
-* [파워 앱][pp apps]과 [파워 오토메이트][pp auto]에 커스텀 커넥터를 연동시켜 API를 호출합니다.
+- [GitHub 코드스페이스][gh codespaces]를 사용해 백엔드 API를 개발합니다.
+- [애저 Dev CLI][azd cli]를 이용해 애저에 리소스를 한번에 생성합니다.
+- [애저 CLI][az cli]와 [GitHub 액션][gh actions]을 이용해 API를 애저에 배포합니다.
+- API를 애저 백엔드 서비스인 [API 관리자][az apim]와 통합합니다.
+- API 관리자를 통해 구성된 API를 [파워 플랫폼 커스텀 커넥터][pp cuscon]로 만듭니다.
+- [파워 앱][pp apps]과 [파워 오토메이트][pp auto]에 커스텀 커넥터를 연동시켜 API를 호출합니다.
 
 
 ## 목차 ##

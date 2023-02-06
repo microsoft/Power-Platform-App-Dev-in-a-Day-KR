@@ -29,15 +29,15 @@
 
 4. 프롬프트에 따라 아래와 같이 입력합니다.
 
-   * Select a project template: `Empty Template`
-   * Please enter a new environment name: `gppb{{랜덤숫자}}` ⬅️ `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
-   * Please select an Azure Subscription to use: 구독 이름 선택
-   * Please select an Azure location to use: `(Asia Pacific) Korea Central (koreacentral)`
+   - Select a project template: `Empty Template`
+   - Please enter a new environment name: `gppb{{랜덤숫자}}` ⬅️ `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
+   - Please select an Azure Subscription to use: 구독 이름 선택
+   - Please select an Azure location to use: `(Asia Pacific) Korea Central (koreacentral)`
 
 5. 아래 파일이 만들어진 것을 확인합니다.
 
-   * `azure.yaml`
-   * `.azure/gppb{{랜덤숫자}}/.env`
+   - `azure.yaml`
+   - `.azure/gppb{{랜덤숫자}}/.env`
 
 6. `azure.yaml` 파일을 열고 아래와 같이 수정합니다.
 
@@ -141,8 +141,8 @@
 
 8. 아래와 같이 입력한 후, **Add secret** 버튼을 클릭합니다.
 
-   * Name: `AZURE_CREDENTIALS`
-   * Secret: 앞서 복사해 둔 JSON 개체
+   - Name: `AZURE_CREDENTIALS`
+   - Secret: 앞서 복사해 둔 JSON 개체
 
     ![GitHub 액션 새 시크릿][image03]
 
@@ -156,12 +156,12 @@
 
 여기까지 해서 애저 Dev CLI와 Azure CLI를 이용해서 애저와 깃헙, 그리고 코드스페이스 연동을 마쳤습니다.
 
-* [애저 Dev CLI 더 알아보기][azd cli]
-* [애저 CLI 더 알아보기][az cli]
+- [애저 Dev CLI 더 알아보기][azd cli]
+- [애저 CLI 더 알아보기][az cli]
 
 ---
 
-* 다음 세션: [API Key 인증 API 개발, 애저 API 관리자와 통합, 그리고 커스텀 커넥터 만들기](./2-api-key-auth.md)
+- 다음 세션: [API Key 인증 API 개발, 애저 API 관리자와 통합, 그리고 커스텀 커넥터 만들기](./2-api-key-auth.md)
 
 
 [image01]: ./images/session01-image01.png

@@ -271,9 +271,9 @@
 
 6. 저장한 문서를 열어 아래와 같이 내용이 있는지 확인합니다.
 
-   * OpenAPI 사양 버전
-   * API 관리자 주소
-   * 인증 방식 &ndash; `apiKeyHeader`, `apiKeyQuery`
+   - OpenAPI 사양 버전
+   - API 관리자 주소
+   - 인증 방식 &ndash; `apiKeyHeader`, `apiKeyQuery`
 
     ```jsonc
     {
@@ -312,8 +312,8 @@
 
 7. 파워 앱 또는 파워 오토메이트 앱을 실행시킵니다. 여기서는 편의상 파워 오토메이트로 합니다.
 
-   * 파워 앱: [https://make.powerapps.com](https://make.powerapps.com)
-   * 파워 오토메이트: [https://make.powerautomate.com](https://make.powerautomate.com)
+   - 파워 앱: [https://make.powerapps.com](https://make.powerapps.com)
+   - 파워 오토메이트: [https://make.powerautomate.com](https://make.powerautomate.com)
 
 8. "데이터" ➡️ "사용자 지정 커넥터" ➡️ "+ 새 사용자 지정 커넥터" ➡️ "OpenAPI 파일 가져오기" 메뉴를 선택합니다.
 
@@ -369,67 +369,123 @@
 앞서 만들어 둔 커스텀 커넥터를 파워 오토메이트에서 사용해 보겠습니다. 아래 순서대로 따라해 보세요.
 
 1. "인스턴트 클라우드 흐름"을 선택합니다.
-2. **흐름 이름**은  `API Key 인증 플로우`라고 지정하고, **수동으로 Flow 트리거** 트리거를 선택합니다.
-3. 플로우 디자이너 화면에서 새 액션을 선택할 때 "사용자 지정" 탭을 클릭하면 **API Key Auth**라는 커스텀 커넥터가 보입니다. 이를 선택합니다.
+2. **흐름 이름**은  `API Key 인증 플로우`라고 지정하고, **PowerApps(V2)** 트리거를 선택합니다.
 
-    ![커스텀 커넥터 선택][image36]
+    ![트리거 선택][image36]
 
-4. **API Key Auth** 커스텀 커넥터에 포함되어 있는 **Greeting** 액션을 선택합니다.
+3. **PowerApps(V2)** 트리거를 열어 **+ 입력 추가**를 클릭합니다.
 
-    ![커스텀 커넥터 액션 선택][image37]
+    ![트리거 입력 추가][image37]
 
-5. **name** 필드에 값을 입력합니다. 여기서는 `GPPB` 라고 입력하겠습니다.
+4. 사용자 입력 종류를 **텍스트**로 선택합니다.
 
-    ![커스텀 커넥터 액션 값 입력][image38]
+    ![트리거 입력 추가 - 사용자 입력 종류 선택][image38]
 
-6. 파워 오토메이트 워크플로우를 저장한 후 테스트 버튼을 클릭해 플로우를 테스트합니다.
-7. 테스트 결과가 아래와 같이 보입니다.
+5. 필드 이름을 `name`으로 하고, 설명을 `이름`으로 지정합니다.
 
-    ![파워 오토메이트 워크플로우 실행 결과][image39]
+    ![트리거 입력 추가 - 사용자 입력 종류 필드명과 설명 입력][image39]
 
-파워 오토메이트에서 커스텀 커넥터를 잘 실행했습니다.
+6. 플로우 디자이너 화면에서 새 액션을 선택할 때 "사용자 지정" 탭을 클릭하면 **API Key Auth**라는 커스텀 커넥터가 보입니다. 이를 선택합니다.
+
+    ![커스텀 커넥터 선택][image40]
+
+7. **API Key Auth** 커스텀 커넥터에 포함되어 있는 **Greeting** 액션을 선택합니다.
+
+    ![커스텀 커넥터 액션 선택][image41]
+
+8. **name** 필드에 값을 입력합니다. 동적 컨텐츠를 통해 파워 앱에서 받아오는 `name` 값을 사용합니다.
+
+    ![커스텀 커넥터 액션 값 입력][image42]
+
+9. 새 "응답" 액션을 추가합니다.
+
+    ![응답 액션 추가][image43]
+
+10. 아래 그림과 같이 각 필드에 값을 지정합니다.
+
+   - "상태 코드": `200`
+   - "본문": 동적 컨텐츠를 통해 **Greeting** 액션의 `body`를 선택합니다.
+   - "응답 본문 JSON 스키마": 아래 내용을 입력합니다.
+
+       ```json
+       {
+         "type": "object",
+         "properties": {
+           "message": {
+             "type": "string"
+           }
+         }
+       }
+       ```
+
+11. 파워 오토메이트 워크플로우를 저장한 후 테스트 버튼을 클릭해 플로우를 테스트합니다.
+
+    ![파워 오토메이트 워크플로우 테스트 실행][image44]
+
+12. 테스트 수행 중, **name** 필드에는 임의의 값을 입력합니다. 여기서는 `GPPB`로 입력했습니다.
+
+    ![파워 오토메이트 워크플로우 테스트 실행시 입력값][image45]
+
+13. 테스트 결과가 아래와 같이 보입니다.
+
+    ![파워 오토메이트 워크플로우 실행 결과][image46]
+
+파워 오토메이트에서 커스텀 커넥터를 통해 API를 잘 실행했습니다.
 
 
 ### 파워 앱 ###
 
-이번에는 파워 앱에서 커스텀 커넥터를 사용해 보겠습니다. 아래 순서대로 따라해 보세요.
+이번에는 파워 앱에서 커스텀 커넥터를 사용해 보겠습니다. 커스텀 커넥터를 직접 파워 앱에 연결시킬 수도 있지만, 앞서 작성한 파워 오토메이트를 통해 실행시키는 방법으로 진행합니다. 아래 순서대로 따라해 보세요.
 
 1. 빈 캔버스 앱을 하나 준비합니다. **앱 이름**은 `API Key 인증 앱`, **형식**은 `휴대폰`으로 설정합니다.
 2. 캔버스에 **텍스트 입력**, **단추**, **텍스트 레이블** 콘트롤을 하나씩 추가합니다.
 
-    ![파워 앱 캔버스에 콘트롤 추가][image40]
+    ![파워 앱 캔버스에 콘트롤 추가][image47]
 
-3. 캔버스 왼쪽의 실린더 아이콘을 클릭한 후 **데이터 추가** 버튼을 클릭합니다.
+3. 캔버스 왼쪽의 파워 오토메이트 아이콘을 클릭한 후 **흐름 추가** ➡️ **API Key 인증 플로우**를 선택합니다.
 
-    ![파워 앱에 데이터 추가][image41]
+    ![파워 앱에 파워 오토메이트 연결][image48]
 
-4. 데이터 원본 선택 화면에서 **연결선** 항목 아래 **API Key Auth** 커넥터를 선택합니다.
-
-    ![파워 앱에 커스텀 커넥터 추가][image42]
-
-5. **API Key Auth** 커넥터를 추가했습니다.
-
-    ![파워 앱에 커스텀 커넥터 추가 완료][image43]
-
-6. **단추** 컨트롤을 선택한 후 화면 왼쪽 상단에 **OnSelect**를 선택합니다. 그리고 화면 가운데 상단에 아래와 같은 수식을 입력합니다.
+4. **단추** 컨트롤을 선택한 후 화면 왼쪽 상단에 **OnSelect**를 선택합니다. 그리고 화면 가운데 상단에 아래와 같은 수식을 입력합니다.
 
     ```powerfx
     ClearCollect(
         greeting,
-        'APIAuthN''dbyAPIKey'.Greeting(TextInput1.Text)
+        APIKey인증플로우.Run(TextInput1.Text)
     )
     ```
 
-    ![파워 앱 단추 컨트롤에서 커스텀 커넥터 호출][image44]
+    ![파워 앱 단추 컨트롤에서 파워 오토메이트 호출][image49]
 
-7. **텍스트 레이블** 컨트롤을 선택한 후 화면 왼쪽 상단에 **Text**를 선택합니다. 그리고 화면 가운데 상단에 아래와 같은 수식을 입력합니다.
+5. **텍스트 레이블** 컨트롤을 선택한 후 화면 왼쪽 상단에 **Text**를 선택합니다. 그리고 화면 가운데 상단에 아래와 같은 수식을 입력합니다.
 
     ```powerfx
     First(greeting).message
     ```
 
-    ![파워 앱 텍스트 레이블 컨트롤에서 커스텀 커넥터 호출 결과 출력][image45]
+    ![파워 앱 텍스트 레이블 컨트롤에서 파워 오토메이트 호출 결과 출력][image50]
 
+6. 이 파워 앱을 실행시킨 후 텍스트 박스 컨트롤에 임의의 값을 입력합니다. 여기서는 `GPPB`라고 입력했습니다. 그러면 아래와 같은 결과 화면이 나타납니다.
+
+    ![파워 앱 실행 결과][image51]
+
+7. 파워 앱을 저장하고 끝냅니다.
+
+    ![파워 앱 저장][image52]
+
+파워 앱에서 파워 오토메이트를 통해 커스텀 커넥터를 연결하고 API를 호출해 봤습니다.
+
+---
+
+여기까지 해서 API Key 인증을 통한 파워 플랫폼 커스텀 커넥터를 만들고, 이를 파워 앱과 파워 오토메이트에서 활용해 봤습니다.
+
+- [파워 앱 더 알아보기][pp apps]
+- [파워 오토메이트 더 알아보기][pp auto]
+
+---
+
+- 이전 세션: [애저 Dev CLI 이용해서 애저 인스턴스 만들기](./1-azd.md)
+- 다음 세션: [Basic 인증 API 개발, 애저 API 관리자와 통합, 그리고 커스텀 커넥터 만들기](./2-api-key-auth.md)
 
 
 [image01]: ./images/session02-image01.png
@@ -481,10 +537,15 @@
 [image47]: ./images/session02-image47.png
 [image48]: ./images/session02-image48.png
 [image49]: ./images/session02-image49.png
+[image50]: ./images/session02-image50.png
+[image51]: ./images/session02-image51.png
+[image52]: ./images/session02-image52.png
 
 
 [az fncapp]: https://learn.microsoft.com/ko-kr/azure/azure-functions/functions-overview?WT.mc_id=dotnet-87051-juyoo
 
 [az apim]: https://learn.microsoft.com/ko-kr/azure/api-management/api-management-key-concepts?WT.mc_id=dotnet-87051-juyoo
 
+[pp apps]: https://learn.microsoft.com/ko-kr/power-apps/powerapps-overview?WT.mc_id=dotnet-87051-juyoo
+[pp auto]: https://learn.microsoft.com/ko-kr/power-automate/getting-started?WT.mc_id=dotnet-87051-juyoo
 [pp cuscon]: https://learn.microsoft.com/ko-kr/connectors/custom-connectors/?WT.mc_id=dotnet-87051-juyoo
