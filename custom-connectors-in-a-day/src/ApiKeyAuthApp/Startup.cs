@@ -9,7 +9,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Configurations;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
-// ⬆️⬆️⬆️ 위의 코드 주석을 풀어세요 ⬆️⬆️⬆️
+// ⬆️⬆️⬆️ 위의 코드 주석을 풀어주세요 ⬆️⬆️⬆️
  
 [assembly: FunctionsStartup(typeof(ApiKeyAuthApp.Startup))]
 
@@ -52,7 +52,7 @@ namespace ApiKeyAuthApp
             }
 
             services.AddSingleton<IOpenApiConfigurationOptions>(options);
-            // ⬆️⬆️⬆️ 위의 코드 주석을 풀어세요 ⬆️⬆️⬆️
+            // ⬆️⬆️⬆️ 위의 코드 주석을 풀어주세요 ⬆️⬆️⬆️
         }
 
         private static void ConfigureHttpClient(IServiceCollection services)

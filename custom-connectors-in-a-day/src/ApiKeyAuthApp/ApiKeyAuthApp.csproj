@@ -18,7 +18,7 @@
 
     <!-- ⬇️⬇️⬇️ 아래의 코드 주석을 풀어주세요 ⬇️⬇️⬇️ -->
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.OpenApi" Version="1.*" />
-    <!-- ⬆️⬆️⬆️ 위의 코드 주석을 풀어세요 ⬆️⬆️⬆️ -->
+    <!-- ⬆️⬆️⬆️ 위의 코드 주석을 풀어주세요 ⬆️⬆️⬆️ -->
   </ItemGroup>
 
   <ItemGroup>
