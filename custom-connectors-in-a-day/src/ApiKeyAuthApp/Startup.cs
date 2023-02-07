@@ -1,13 +1,16 @@
 using System;
 
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+// ⬇️⬇️⬇️ 아래의 코드 주석을 풀어주세요 ⬇️⬇️⬇️
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Configurations;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-
+// ⬆️⬆️⬆️ 위의 코드 주석을 풀어세요 ⬆️⬆️⬆️
+ 
 [assembly: FunctionsStartup(typeof(ApiKeyAuthApp.Startup))]
 
 namespace ApiKeyAuthApp
@@ -30,6 +33,7 @@ namespace ApiKeyAuthApp
 
         private static void ConfigureAppSettings(IServiceCollection services)
         {
+            // ⬇️⬇️⬇️ 아래의 코드 주석을 풀어주세요 ⬇️⬇️⬇️
             var options = new DefaultOpenApiConfigurationOptions()
             {
                 OpenApiVersion = OpenApiVersionType.V3,
@@ -41,14 +45,14 @@ namespace ApiKeyAuthApp
                 }
             };
 
-            /* ⬇️⬇️⬇️ for GH Codespaces ⬇️⬇️⬇️ */
             var codespaces = bool.TryParse(Environment.GetEnvironmentVariable("OpenApi__RunOnCodespaces"), out var isCodespaces) && isCodespaces;
             if (codespaces)
             {
                 options.IncludeRequestingHostName = false;
             }
-            /* ⬆️⬆️⬆️ for GH Codespaces ⬆️⬆️⬆️ */
+
             services.AddSingleton<IOpenApiConfigurationOptions>(options);
+            // ⬆️⬆️⬆️ 위의 코드 주석을 풀어세요 ⬆️⬆️⬆️
         }
 
         private static void ConfigureHttpClient(IServiceCollection services)
