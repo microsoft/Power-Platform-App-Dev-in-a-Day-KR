@@ -375,7 +375,7 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
 
     ![API 등록 성공][image21]
 
-9. 애저 펑션이 제공하는 API Key를 캡슐화시킵니다. 아래와 같이 "API AuthN'd by Basic" ➡️ "All operations" ➡️ "Inbound processing" ➡️ "Policies" 항목을 클릭합니다.
+9. 애저 펑션이 제공하는 API Key를 캡슐화시킵니다. 아래와 같이 "API AuthN'd by Basic Auth" ➡️ "All operations" ➡️ "Inbound processing" ➡️ "Policies" 항목을 클릭합니다.
 
     ![API 인바운드 정책 등록][image22]
 
