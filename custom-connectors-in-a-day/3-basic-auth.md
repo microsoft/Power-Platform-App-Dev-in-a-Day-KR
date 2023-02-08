@@ -308,12 +308,96 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
     https://fncapp-gppb{{랜덤숫자}}-basic-auth.azurewebsites.net/api/swagger.json
     ```
 
+14. 아래 명령어를 실행시켜 애저 펑션의 환경 변수 값을 업데이트합니다. `{{ATLASSIAN_INSTANCE_NAME}}` 값을 앞서 기록해 둔 내 Atlassian 인스턴스 이름으로 대체합니다.
+
+    ```bash
+    ATLASSIAN_INSTANCE_NAME="{{ATLASSIAN_INSTANCE_NAME}}"
+    AZURE_ENV_NAME="gppb{{랜덤숫자}}"
+    resgrp="rg-$AZURE_ENV_NAME"
+    fncapp="fncapp-$AZURE_ENV_NAME-basic-auth"
+
+    az functionapp config appsettings set \
+        -g $resgrp \
+        -n $fncapp \
+        --settings Atlassian__InstanceName=$ATLASSIAN_INSTANCE_NAME
+    ```
+
 [애저 펑션][az fncapp]을 이용한 API 앱 배포가 끝났습니다.
 
 
 ## 4. API 관리자 연동하기 ##
 
-TBD
+이번에는 [애저 API 관리자][az apim]에 방금 배포한 API 앱을 연동시켜 보겠습니다. 아래 순서대로 따라해 보세요.
+
+1. 아래 명령어를 실행시켜 애저 펑션의 API Key를 받아옵니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
+
+    ```bash
+    AZURE_ENV_NAME="gppb{{랜덤숫자}}"
+    resgrp="rg-$AZURE_ENV_NAME"
+    fncapp="fncapp-$AZURE_ENV_NAME-basic-auth"
+
+    fncappKey=$(az functionapp keys list \
+        -g $resgrp \
+        -n $fncapp \
+        --query "functionKeys.default" -o tsv)
+    ```
+
+2. 아래 명령어를 실행시켜 애저 펑션의 API Key를 API 관리자에 등록합니다.
+
+    ```bash
+    apim="apim-$AZURE_ENV_NAME"
+    az apim nv create \
+        -g $resgrp \
+        -n $apim \
+        --named-value-id "X-FUNCTIONS-KEY-BASIC-AUTH" \
+        --display-name "X-FUNCTIONS-KEY-BASIC-AUTH" \
+        --value $fncappKey \
+        --secret true
+    ```
+
+3. 애저 포털의 API 관리자 화면에서 API 앱을 등록합니다. "API" ➡️ "+ Add API" ➡️ "OpenAPI"를 선택하세요.
+
+    ![OpenAPI 문서를 이용해 API 등록][image19]
+
+4. 기본적으로 **Basic**이 선택되어 있는데, 이를 **Full**로 바꿉니다.
+5. **OpenAPI specification** 필드에 앞서 복사해 둔 OpenAPI 문서 주소를 입력합니다. OpenAPI 문서 주소는 아래와 같습니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
+
+    ```text
+    https://fncapp-gppb{{랜덤숫자}}-basic-auth.azurewebsites.net/api/swagger.json
+    ```
+
+6. **API URL suffix** 필드에 `basicauth`라고 입력합니다.
+7. 마지막으로 **Create** 버튼을 클릭해서 API를 생성합니다.
+
+    ![API 등록 과정][image20]
+
+8. API 등록이 성공한 것을 확인합니다.
+
+    ![API 등록 성공][image21]
+
+9. 애저 펑션이 제공하는 API Key를 캡슐화시킵니다. 아래와 같이 "API AuthN'd by Basic" ➡️ "All operations" ➡️ "Inbound processing" ➡️ "Policies" 항목을 클릭합니다.
+
+    ![API 인바운드 정책 등록][image22]
+
+10. 화면에 보이는 XML 문서의 `policies/inbound` 노드 아래에 아래 내용을 입력한 후 저장합니다.
+
+    ```xml
+    <set-header name="x-functions-key" exists-action="override">
+      <value>{{X-FUNCTIONS-KEY-BASIC-AUTH}}</value>
+    </set-header>
+    ```
+
+    ![API 인바운드 정책 API Key 등록][image23]
+
+11. 이제 API가 제대로 작동하는지 확인해 보겠습니다. 아래 그림과 같이 "API AuthN'd by Basic Auth" ➡️ "Profile" ➡️ "Test" 화면으로 이동하세요. 이후 Header를 하나 추가합니다. **Name** 필드에 `Authorization`, **Value** 필드에 앞서 Swagger UI 화면에서 복사했던 `Basic ***` 인증 토큰을 입력합니다. 그리고 **Send** 버튼을 클릭하세요.
+
+    ![API 테스트][image24]
+
+12. 아래와 같이 테스트 결과가 나오는지 확인해 보세요.
+
+    ![API 테스트 결과][image25]
+
+[애저 API 관리자][az apim]에 [애저 펑션][az fncapp] API 앱을 연동시키는 작업이 끝났습니다.
 
 
 ## 5. 파워 플랫폼 커스텀 커넥터 생성하기 ##
