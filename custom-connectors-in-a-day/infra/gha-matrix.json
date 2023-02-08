@@ -4,5 +4,11 @@
     "suffix": "api-key-auth",
     "path": "ApiKeyAuthApp",
     "nv": "API_KEY_AUTH"
+  },
+  {
+    "name": "basicauth",
+    "suffix": "basic-auth",
+    "path": "BasicAuthApp",
+    "nv": "BASIC_AUTH"
   }
 ]

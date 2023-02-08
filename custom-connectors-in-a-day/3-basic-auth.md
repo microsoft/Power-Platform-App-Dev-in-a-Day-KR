@@ -232,7 +232,29 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
 
 앞서 개발한 API 앱을 GitHub 액션 워크플로우를 이용해 애저에 배포합니다. 아래 순서대로 따라해 보세요.
 
-1. 변경한 API 앱을 깃헙에 커밋합니다.
+1. `custom-connectors-in-a-day/infra/gha-matrix.json` 파일을 열어 아래와 같이 수정합니다.
+
+    ```jsonc
+    [
+      {
+        "name": "apikeyauth",
+        "suffix": "api-key-auth",
+        "path": "ApiKeyAuthApp",
+        "nv": "API_KEY_AUTH"
+      }, // 👈 쉼표 잊지 마세요
+
+      // ⬇️⬇️⬇️ 아래 JSON 개체를 추가하세요 ⬇️⬇️⬇️
+      {
+        "name": "basicauth",
+        "suffix": "basic-auth",
+        "path": "BasicAuthApp",
+        "nv": "BASIC_AUTH"
+      }
+      // ⬆️⬆️⬆️ 위 JSON 개체를 추가하세요 ⬆️⬆️⬆️
+    ]
+    ```
+
+2. 변경한 API 앱을 깃헙에 커밋합니다.
 
     ```bash
     git add . \
@@ -240,15 +262,15 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
         && git push origin
     ```
 
-2. 아래와 같이 GitHub 액션 워크플로우가 자동으로 실행되는 것을 확인합니다.
+3. 아래와 같이 GitHub 액션 워크플로우가 자동으로 실행되는 것을 확인합니다.
 
     ![GitHub 액션 워크플로우 실행중][image09]
 
-3. 아래와 같이 모든 GitHub 액션 워크플로우가 성공적으로 실행된 것을 확인합니다.
+4. 아래와 같이 모든 GitHub 액션 워크플로우가 성공적으로 실행된 것을 확인합니다.
 
     ![GitHub 액션 워크플로우 실행 완료][image10]
 
-4. 웹브라우저 주소창에 방금 배포한 API 앱의 주소를 입력하고 Swagger UI 화면이 나오는지 확인합니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
+5. 웹브라우저 주소창에 방금 배포한 API 앱의 주소를 입력하고 Swagger UI 화면이 나오는지 확인합니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
 
     ```bash
     https://fncapp-gppb{{랜덤숫자}}-basic-auth.azurewebsites.net/api/swagger/ui
@@ -256,22 +278,21 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
 
     ![배포된 API 앱 Swagger UI][image11]
 
-5. 아래 그림의 화살표가 가리키는 링크를 클릭해서 OpenAPI 문서를 표시합니다.
+6. 아래 그림의 화살표가 가리키는 링크를 클릭해서 OpenAPI 문서를 표시합니다.
 
     ![배포된 API 앱 OpenAPI 문서 링크][image12]
 
-6. OpenAPI 문서가 표시되는 것을 확인합니다.
+7. OpenAPI 문서가 표시되는 것을 확인합니다.
 
     ![배포된 API 앱 OpenAPI 문서 생성][image13]
 
-7. 이 OpenAPI 문서의 주소를 복사해 둡니다. 주소는 대략 아래와 같은 형식입니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
+8. 이 OpenAPI 문서의 주소를 복사해 둡니다. 주소는 대략 아래와 같은 형식입니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
 
     ```text
     https://fncapp-gppb{{랜덤숫자}}-basic-auth.azurewebsites.net/api/swagger.json
     ```
 
 [애저 펑션][az fncapp]을 이용한 API 앱 배포가 끝났습니다.
-
 
 
 ## 4. API 관리자 연동하기 ##
