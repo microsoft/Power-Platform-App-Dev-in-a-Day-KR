@@ -205,10 +205,6 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
 
     ![애저 펑션 Swagger UI][image06]
 
-
-
-
-
 18. 위 Swagger UI 화면에서 화살표가 가리키는 링크를 클릭합니다.
 
     ![애저 펑션 Swagger UI에서 swagger.json 문서 링크 클릭][image07]
@@ -278,15 +274,35 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
 
     ![배포된 API 앱 Swagger UI][image11]
 
-6. 아래 그림의 화살표가 가리키는 링크를 클릭해서 OpenAPI 문서를 표시합니다.
+6. 아래 그림과 같이 **Authorize** 버튼을 클릭합니다.
 
-    ![배포된 API 앱 OpenAPI 문서 링크][image12]
+    ![인증 버튼 클릭][image12]
 
-7. OpenAPI 문서가 표시되는 것을 확인합니다.
+7. 앞서 생성한 Atlassian 계정의 이메일 주소와 API 토큰을 입력한 후 **Authorize** 버튼을 클릭합니다.
 
-    ![배포된 API 앱 OpenAPI 문서 생성][image13]
+    ![인증 정보 입력][image13]
 
-8. 이 OpenAPI 문서의 주소를 복사해 둡니다. 주소는 대략 아래와 같은 형식입니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
+8. 아래와 같이 자물쇠 모양이 잠긴 것을 확인한 후 **Try it out** 버튼을 클릭합니다.
+
+    ![API 테스트][image14]
+
+9. 이후 **Execute** 버튼을 클릭하면 아래와 같이 `401 Unauthorized` 에러가 나오는 것을 확인하세요.
+
+    ![API 테스트 결과][image15]
+
+10. 아래와 같이 요청 헤더 부분의 `Basic ***`으로 시작하는 문자열을 복사해서 보관합니다. 이후 API 관리자 연동후 테스트 용도로 사용할 인증 키 값입니다.
+
+    ![Basic 인증 키 값 복사][image16]
+
+11. 이제 아래 그림의 화살표가 가리키는 링크를 클릭해서 OpenAPI 문서를 표시합니다.
+
+    ![배포된 API 앱 OpenAPI 문서 링크][image17]
+
+12. OpenAPI 문서가 표시되는 것을 확인합니다.
+
+    ![배포된 API 앱 OpenAPI 문서 생성][image18]
+
+13. 이 OpenAPI 문서의 주소를 복사해 둡니다. 주소는 대략 아래와 같은 형식입니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
 
     ```text
     https://fncapp-gppb{{랜덤숫자}}-basic-auth.azurewebsites.net/api/swagger.json
