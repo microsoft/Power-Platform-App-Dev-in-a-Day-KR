@@ -651,23 +651,74 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
 
 ### 파워 앱 ###
 
-TBD
+이번에는 파워 앱에서 커스텀 커넥터를 사용해 보겠습니다. 커스텀 커넥터를 직접 파워 앱에 연결시킬 수도 있지만, 앞서 작성한 파워 오토메이트를 통해 실행시키는 방법으로 진행합니다. 아래 순서대로 따라해 보세요.
 
+1. 빈 캔버스 앱을 하나 준비합니다. **앱 이름**은 `Basic 인증 앱`, **형식**은 `휴대폰`으로 설정합니다.
+2. 캔버스에 **단추**, **텍스트 레이블**, **이미지** 컨트롤을 각각 하나씩 추가합니다.
 
+    ![파워 앱 캔버스에 컨트롤 추가][image48]
+
+3. 캔버스 왼쪽의 파워 오토메이트 아이콘을 클릭한 후 **흐름 추가** ➡️ **Basic 인증 플로우**를 선택합니다.
+
+    ![파워 앱에 파워 오토메이트 연결][image49]
+
+4. **단추** 컨트롤을 선택한 후 화면 왼쪽 상단에 **OnSelect**를 선택합니다. 그리고 화면 가운데 상단에 아래와 같은 수식을 입력합니다.
+
+    ```powerappsfl
+    Set(
+        profile,
+        Basic인증플로우.Run()
+    )
+    ```
+
+    ![파워 앱 단추 컨트롤에서 파워 오토메이트 호출][image50]
+
+5. **텍스트 레이블** 컨트롤을 선택한 후 화면 왼쪽 상단에 **Text**를 선택합니다. 그리고 화면 가운데 상단에 아래와 같은 수식을 입력합니다.
+
+    ```powerappsfl
+    profile.publicName
+    ```
+
+    ![파워 앱 텍스트 레이블 컨트롤에서 파워 오토메이트 호출 결과 출력 #1][image51]
+
+6. **이미지** 컨트롤을 선택한 후 화면 왼쪽 상단에 **Image**를 선택합니다. 그리고 화면 가운데 상단에 아래와 같은 수식을 입력합니다.
+
+    ```powerappsfl
+    "https://" &
+        First(
+            Split(
+                Substitute(
+                    profile._links.self,
+                    "https://",
+                    ""),
+                "/")
+        ).Result &
+        profile.profilePicture.path
+    ```
+
+    ![파워 앱 텍스트 레이블 컨트롤에서 파워 오토메이트 호출 결과 출력 #1][image52]
+
+7. 이 파워 앱을 실행시킵니다. 그러면 아래와 같은 결과 화면이 나타납니다.
+
+    ![파워 앱 실행 결과][image53]
+
+8. 파워 앱을 저장하고 끝냅니다.
+
+    ![파워 앱 저장][image54]
 
 파워 앱에서 파워 오토메이트를 통해 커스텀 커넥터를 연결하고 API를 호출해 봤습니다.
 
 ---
 
-여기까지 해서 API Key 인증을 통한 파워 플랫폼 커스텀 커넥터를 만들고, 이를 파워 앱과 파워 오토메이트에서 활용해 봤습니다.
+여기까지 해서 Basic 인증을 통한 파워 플랫폼 커스텀 커넥터를 만들고, 이를 파워 앱과 파워 오토메이트에서 활용해 봤습니다.
 
 - [파워 앱 더 알아보기][pp apps]
 - [파워 오토메이트 더 알아보기][pp auto]
 
 ---
 
-- 이전 세션: [애저 Dev CLI 이용해서 애저 인스턴스 만들기](./1-azd.md)
-- 다음 세션: [Basic 인증 API 개발, 애저 API 관리자와 통합, 그리고 커스텀 커넥터 만들기](./2-api-key-auth.md)
+- 이전 세션: [API Key 인증 API 개발, 애저 API 관리자와 통합, 그리고 커스텀 커넥터 만들기](./2-api-key-auth.md)
+- 다음 세션: [OAuth2 인증 API 개발, 애저 API 관리자와 통합, 그리고 커스텀 커넥터 만들기](./4-oauth2-auth.md)
 
 
 [image01]: ./images/session03-image01.png
@@ -723,6 +774,7 @@ TBD
 [image51]: ./images/session03-image51.png
 [image52]: ./images/session03-image52.png
 [image53]: ./images/session03-image53.png
+[image54]: ./images/session03-image54.png
 
 
 [az fncapp]: https://learn.microsoft.com/ko-kr/azure/azure-functions/functions-overview?WT.mc_id=dotnet-87051-juyoo
