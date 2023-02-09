@@ -537,12 +537,116 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
 
 ## 6. 파워 앱과 파워 오토메이트에서 커스텀 커넥터 사용하기 ##
 
-TBD
-
 
 ### 파워 오토메이트 ###
 
-TBD
+앞서 만들어 둔 커스텀 커넥터를 파워 오토메이트에서 사용해 보겠습니다. 아래 순서대로 따라해 보세요.
+
+1. "인스턴트 클라우드 흐름"을 선택합니다.
+2. **흐름 이름**은  `Basic 인증 플로우`라고 지정하고, **PowerApps(V2)** 트리거를 선택합니다.
+
+    ![트리거 선택][image41]
+
+3. 플로우 디자이너 화면에서 새 액션을 선택할 때 "사용자 지정" 탭을 클릭하면 **Basic Auth**라는 커스텀 커넥터가 보입니다. 이를 선택합니다.
+
+    ![커스텀 커넥터 선택][image42]
+
+4. **Basic Auth** 커스텀 커넥터에 포함되어 있는 **Profile** 액션을 선택합니다.
+
+    ![커스텀 커넥터 액션 선택][image43]
+
+   이 액션에서는 추가 정보가 필요하지 않으니 그냥 넘어갑니다.
+
+5. 새 "응답" 액션을 추가합니다.
+
+    ![응답 액션 추가][image44]
+
+6. 아래 그림과 같이 각 필드에 값을 지정합니다.
+
+    - **상태 코드**: `200`
+    - **본문**: 동적 컨텐츠를 통해 **Profile** 액션의 `body`를 선택합니다.
+    - **응답 본문 JSON 스키마**: 아래 내용을 입력합니다.
+
+       ```json
+       {
+         "type": "object",
+         "properties": {
+           "type": {
+             "type": "string"
+           },
+           "accountId": {
+             "type": "string"
+           },
+           "accountType": {
+             "type": "string"
+           },
+           "email": {
+             "type": "string"
+           },
+           "publicName": {
+             "type": "string"
+           },
+           "profilePicture": {
+             "type": "object",
+             "properties": {
+               "path": {
+                 "type": "string"
+               },
+               "width": {
+                 "type": "integer"
+               },
+               "height": {
+                 "type": "integer"
+               },
+               "isDefault": {
+                 "type": "boolean"
+               }
+             }
+           },
+           "displayName": {
+             "type": "string"
+           },
+           "isExternalCollaborator": {
+             "type": "boolean"
+           },
+           "_expandable": {
+             "type": "object",
+             "properties": {
+               "operations": {
+                 "type": "string"
+               },
+               "personalSpace": {
+                 "type": "string"
+               }
+             }
+           },
+           "_links": {
+             "type": "object",
+             "properties": {
+               "self": {
+                 "type": "string"
+               },
+               "_base": {},
+               "context": {
+                 "type": "string"
+               }
+             }
+           }
+         }
+       }
+       ```
+
+      ![응답 본문 추가][image45]
+
+7. 파워 오토메이트 워크플로우를 저장한 후 테스트 버튼을 클릭해 플로우를 테스트합니다.
+
+    ![파워 오토메이트 워크플로우 테스트 실행][image46]
+
+8. 테스트 결과가 아래와 같이 보입니다.
+
+    ![파워 오토메이트 워크플로우 실행 결과][image47]
+
+파워 오토메이트에서 커스텀 커넥터를 통해 API를 잘 실행했습니다.
 
 
 ### 파워 앱 ###
