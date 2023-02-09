@@ -308,6 +308,7 @@
 1. 아래 명령어를 실행시켜 API 관리자의 구독 키 값을 받아옵니다. 커스텀 커넥터 작성 후 새 커넥션을 생성할 때 필요합니다.
 
     ```bash
+    subscriptionId=$(az account show --query "id" -o tsv)
     apiVersion="2021-08-01"
     url="/subscriptions/$subscriptionId/resourceGroups/$resgrp/providers/Microsoft.ApiManagement/service/$apim/subscriptions/master/listSecrets"
 
@@ -347,7 +348,7 @@
       "schemes": [
         "https"
       ],
-      // 인증 방식 지정
+      // ⬇️⬇️⬇️ 인증 방식 지정 ⬇️⬇️⬇️
       "securityDefinitions": {
         "apiKeyHeader": {
           "type": "apiKey",
@@ -368,6 +369,7 @@
           "apiKeyQuery": []
         }
       ],
+      // ⬆️⬆️⬆️ 인증 방식 지정 ⬆️⬆️⬆️
     ...
     ```
 

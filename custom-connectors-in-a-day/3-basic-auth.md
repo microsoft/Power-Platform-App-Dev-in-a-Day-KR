@@ -402,7 +402,147 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
 
 ## 5. 파워 플랫폼 커스텀 커넥터 생성하기 ##
 
-TBD
+이번에는 앞서 API 관리자에 등록한 API를 이용해 [파워 플랫폼 커스텀 커넥터][pp cuscon]를 만들어 보겠습니다. 아래 순서대로 따라해 보세요.
+
+1. 아래 명령어를 실행시켜 API 관리자의 구독 키 값을 받아옵니다. 커스텀 커넥터 작성 후 새 커넥션을 생성할 때 필요합니다.
+
+    ```bash
+    subscriptionId=$(az account show --query "id" -o tsv)
+    apiVersion="2021-08-01"
+    url="/subscriptions/$subscriptionId/resourceGroups/$resgrp/providers/Microsoft.ApiManagement/service/$apim/subscriptions/master/listSecrets"
+
+    az rest --method post --url "$url?api-version=$apiVersion" --query "primaryKey" -o tsv
+    ```
+
+2. API 설정을 확인합니다. "API" ➡️ "API AuthN'd by Basic Auth" ➡️ "Settings" 메뉴로 이동합니다.
+
+    ![API 설정 화면][image26]
+
+3. **Subscription required** 항목에 체크가 비활성화 되어 있는지 확인합니다. 체크가 되어 있다면 체크를 없애 비활성화한 후 저장합니다.
+
+    ![API 구독 키 비활성화 확인][image27]
+
+4. "API AuthN'd by Basic Auth" 메뉴 옆에 있는 젬 세 개 버튼을 클릭한 후 "Export" 메뉴를 선택합니다. 그리고, "OpenAPI v2 (JSON)" 메뉴를 클릭합니다.
+
+    ![OpenAPI v2 (JSON) 문서 내보내기][image28]
+
+5. 컴퓨터에 아래와 같이 저장합니다. 기본 지정된 파일명은 `API AuthN'd by Basic Auth.swagger.json`입니다.
+
+    ![OpenAPI 문서 저장하기][image29]
+
+6. 저장한 문서를 열어 아래와 같이 내용이 있는지 확인합니다.
+
+   - OpenAPI 사양 버전
+   - API 관리자 주소
+   - 인증 방식 &ndash; `apiKeyHeader`, `apiKeyQuery`
+
+    ```jsonc
+    {
+      // OpenAPI 사양 버전
+      "swagger": "2.0",
+      ...
+      // API 관리자 주소
+      "host": "apim-gppb{{랜덤숫자}}.azure-api.net",
+      "basePath": "/basicauth",
+      "schemes": [
+        "https"
+      ],
+      // ⬇️⬇️⬇️ 인증 방식 지정 ⬇️⬇️⬇️
+      "securityDefinitions": {
+        "apiKeyHeader": {
+          "type": "apiKey",
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header"
+        },
+        "apiKeyQuery": {
+          "type": "apiKey",
+          "name": "subscription-key",
+          "in": "query"
+        }
+      },
+      "security": [
+        {
+          "apiKeyHeader": []
+        },
+        {
+          "apiKeyQuery": []
+        }
+      ],
+      // ⬆️⬆️⬆️ 인증 방식 지정 ⬆️⬆️⬆️
+    ...
+    ```
+
+7. `securityDefinitions` 어트리뷰트와 `security` 어트리뷰트를 아래와 같이 `basic_auth`로 바꾸고 저장합니다.
+
+    ```jsonc
+    {
+      ...
+      // ⬇️⬇️⬇️ 인증 방식 지정 ⬇️⬇️⬇️
+      "securityDefinitions": {
+        "basic_auth": {
+          "type": "basic"
+        }
+      },
+      "security": [
+        {
+          "basic_auth": []
+        }
+      ],
+      // ⬆️⬆️⬆️ 인증 방식 지정 ⬆️⬆️⬆️
+    ...
+    ```
+
+8. 파워 앱 또는 파워 오토메이트 앱을 실행시킵니다. 여기서는 편의상 파워 오토메이트로 합니다.
+
+   - 파워 앱: [https://make.powerapps.com](https://make.powerapps.com)
+   - 파워 오토메이트: [https://make.powerautomate.com](https://make.powerautomate.com)
+
+9. "데이터" ➡️ "사용자 지정 커넥터" ➡️ "+ 새 사용자 지정 커넥터" ➡️ "OpenAPI 파일 가져오기" 메뉴를 선택합니다.
+
+    ![새 커스텀 커넥터 만들기][image30]
+
+10. 아래와 같이 **커넥터 이름** 필드에 `Basic Auth`라고 입력하고, 앞서 저장했던 `API AuthN'd by Basic Auth.swagger.json` 파일을 불러옵니다. 이후 **계속** 버튼을 클릭합니다.
+
+    ![OpenAPI 문서 불러오기][image31]
+
+11. 일반 정보 화면이 아래와 같이 보입니다. **2. 보안** 탭을 클릭합니다.
+
+    ![커스텀 커넥터 읿반 정보][image32]
+
+12. **인증 형식** 섹션 아래 **API로 구현되는 인증 선택** 필드 값이 `기본 인증`, **기본 인증** 섹션 아래 **매개 변수 레이블** 필드 값이 `사용자 이름`, `암호`로 되어 있는 것을 확인합니다.
+
+    ![커스텀 커넥터 보안][image33]
+
+13. **✔️ 커넥터 만들기** 버튼을 클릭해서 커스텀 커넥터 생성을 마무리합니다.
+
+    ![커스텀 커넥터 만들기][image34]
+
+14. 커스텀 커넥터가 만들어졌습니다. **5. 테스트** 메뉴를 클릭해서 이동합니다.
+
+    ![커스텀 커넥터 생성후 테스트 메뉴 이동][image35]
+
+15. 테스트 화면에서 **+ 새 연결** 버튼을 클릭합니다.
+
+    ![커스텀 커넥터 새 연결][image36]
+
+16. 새 창에서 **사용자 이름**, **암호** 입력창이 나타나면 앞서 받아놓은 Atlassian의 로그인 email 주소와 API 토큰을 입력합니다. 이후 **연결 만들기** 버튼을 클릭합니다.
+
+    ![커스텀 커넥터 API 키 입력][image37]
+
+17. 새 연결이 만들어지면 아래 그림과 같이 연결이 나타납니다. 만약 연결이 보이지 않는다면 새로 고침 버튼을 클릭합니다.
+
+    ![커스텀 커넥터 연결 생성][image38]
+
+18. 실제로 커스텀 커넥터가 작동하는지 확인해 보기 위해 아래와 같이 **테스트 작업** 버튼을 클릭합니다.
+
+    ![커스텀 커넥터 연결 테스트][image39]
+
+19. 커스텀 커넥터를 통해 API 호출이 성공적으로 이뤄진 것을 확인합니다.
+
+    ![커스텀 커넥터 연결 테스트 성공][image40]
+
+커스텀 커넥터를 만들고 이를 통해 API 앱을 호출하는 것까지 완성했습니다.
+
 
 
 ## 6. 파워 앱과 파워 오토메이트에서 커스텀 커넥터 사용하기 ##
