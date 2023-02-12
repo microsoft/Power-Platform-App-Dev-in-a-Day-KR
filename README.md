@@ -2,14 +2,26 @@
 
 이 핸즈온 랩 예제를 통해 여러분은 아래와 같은 결과를 얻을 수 있습니다.
 
-* 파워 앱과 파워 오토메이트를 통해 한 회사의 인사관리 시스템을 고도화 시킬 수 있습니다.
-* 파워 플랫폼 커스텀 커넥터를 이용해 다양한 API를 연결하고, 애저 API 관리자를 이용해 좀 더 향상된 보안 설정을 할 수 있습니다.
+- 파워 앱과 파워 오토메이트를 통해 한 회사의 인사관리 시스템을 고도화 시킬 수 있습니다.
+- 파워 플랫폼 커스텀 커넥터를 이용해 다양한 API를 연결하고, 애저 API 관리자를 이용해 좀 더 향상된 보안 설정을 할 수 있습니다.
+
+
+## 사전 준비사항
+
+- [GitHub 무료 계정][gh signup]
+- [애저 무료 계정][az free]
+- [Microsoft 365 개발자 프로그램][m365 dev]
+- [파워 앱 개발자 프로그램][pp dev]
+- [Docker Desktop][docker desktop]
+- [Windows Subsystem for Linux (윈도우 사용자용)][wsl]
+- [Visual Studio Code][vs code]
+- [Visual Studio Code - Remote Development Extension][vs code extensions remote]
 
 
 ## 시작하기
 
-* 파워 앱과 파워 오토메이트를 이용한 인사관리 시스템 고도화
-* [파워 플랫폼 커스텀 커넥터 개발](./custom-connectors-in-a-day/README.md)
+- 파워 앱과 파워 오토메이트를 이용한 인사관리 시스템 고도화
+- [파워 플랫폼 커스텀 커넥터와 애저 백엔드 통합하기](./custom-connectors-in-a-day)
 
 
 ---
