@@ -256,7 +256,7 @@
         --secret true
     ```
 
-3. 애저 포털의 API 관리자 화면에서 API 앱을 등록합니다. "API" ➡️ "+ Add API" ➡️ "OpenAPI"를 선택하세요.
+3. 애저 포털의 API 관리자 화면에서 API 앱을 등록합니다. **API** ➡️ **➕ Add API** ➡️ **OpenAPI**를 선택하세요.
 
     ![OpenAPI 문서를 이용해 API 등록][image14]
 
@@ -276,7 +276,7 @@
 
     ![API 등록 성공][image16]
 
-9. 애저 펑션이 제공하는 API Key를 캡슐화시킵니다. 아래와 같이 "API AuthN'd by API Key" ➡️ "All operations" ➡️ "Inbound processing" ➡️ "Policies" 항목을 클릭합니다.
+9. 애저 펑션이 제공하는 API Key를 캡슐화시킵니다. 아래와 같이 **API AuthN'd by API Key** ➡️ **All operations** ➡️ **Inbound processing** ➡️ **Policies** 항목을 클릭합니다.
 
     ![API 인바운드 정책 등록][image17]
 
@@ -290,7 +290,7 @@
 
     ![API 인바운드 정책 API Key 등록][image18]
 
-11. 이제 API가 제대로 작동하는지 확인해 보겠습니다. 아래 그림과 같이 "API AuthN'd by API Key" ➡️ "Greeting" ➡️ "Test" 화면으로 이동하세요. 이후 **name** 필드에 값을 입력합니다. 여기서는 `GPPB`라고 입력했습니다. 그리고 **Send** 버튼을 클릭하세요.
+11. 이제 API가 제대로 작동하는지 확인해 보겠습니다. 아래 그림과 같이 **API AuthN'd by API Key** ➡️ **Greeting** ➡️ **Test** 화면으로 이동하세요. 이후 **name** 필드에 값을 입력합니다. 여기서는 `GPPB`라고 입력했습니다. 그리고 **Send** 버튼을 클릭하세요.
 
     ![API 테스트][image19]
 
@@ -315,7 +315,7 @@
     az rest --method post --url "$url?api-version=$apiVersion" --query "primaryKey" -o tsv
     ```
 
-2. API 설정을 확인합니다. "API" ➡️ "API AuthN'd by API Key" ➡️ "Settings" 메뉴로 이동합니다.
+2. API 설정을 확인합니다. **API** ➡️ **API AuthN'd by API Key** ➡️ **Settings** 메뉴로 이동합니다.
 
     ![API 설정 화면][image21]
 
@@ -323,7 +323,7 @@
 
     ![API 구독 키 설정 확인][image22]
 
-4. "API AuthN'd by API Key" 메뉴 옆에 있는 젬 세 개 버튼을 클릭한 후 "Export" 메뉴를 선택합니다. 그리고, "OpenAPI v2 (JSON)" 메뉴를 클릭합니다.
+4. **API AuthN'd by API Key** 메뉴 옆에 있는 젬 세 개 버튼을 클릭한 후 **Export** 메뉴를 선택합니다. 그리고, **OpenAPI v2 (JSON)** 메뉴를 클릭합니다.
 
     ![OpenAPI v2 (JSON) 문서 내보내기][image23]
 
@@ -378,7 +378,7 @@
    - 파워 앱: [https://make.powerapps.com](https://make.powerapps.com)
    - 파워 오토메이트: [https://make.powerautomate.com](https://make.powerautomate.com)
 
-8. "데이터" ➡️ "사용자 지정 커넥터" ➡️ "+ 새 사용자 지정 커넥터" ➡️ "OpenAPI 파일 가져오기" 메뉴를 선택합니다.
+8. **데이터** ➡️ **사용자 지정 커넥터** ➡️ **➕ 새 사용자 지정 커넥터** ➡️ **OpenAPI 파일 가져오기** 메뉴를 선택합니다.
 
     ![새 커스텀 커넥터 만들기][image25]
 
@@ -402,7 +402,7 @@
 
     ![커스텀 커넥터 생성후 테스트 메뉴 이동][image30]
 
-14. 테스트 화면에서 **+ 새 연결** 버튼을 클릭합니다.
+14. 테스트 화면에서 **➕ 새 연결** 버튼을 클릭합니다.
 
     ![커스텀 커넥터 새 연결][image31]
 
@@ -436,7 +436,7 @@
 
     ![트리거 선택][image36]
 
-3. **PowerApps(V2)** 트리거를 열어 **+ 입력 추가**를 클릭합니다.
+3. **PowerApps(V2)** 트리거를 열어 **➕ 입력 추가**를 클릭합니다.
 
     ![트리거 입력 추가][image37]
 

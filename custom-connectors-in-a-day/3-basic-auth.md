@@ -355,7 +355,7 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
         --secret true
     ```
 
-3. 애저 포털의 API 관리자 화면에서 API 앱을 등록합니다. "API" ➡️ "+ Add API" ➡️ "OpenAPI"를 선택하세요.
+3. 애저 포털의 API 관리자 화면에서 API 앱을 등록합니다. **API** ➡️ **➕ Add API** ➡️ **OpenAPI**를 선택하세요.
 
     ![OpenAPI 문서를 이용해 API 등록][image19]
 
@@ -375,7 +375,7 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
 
     ![API 등록 성공][image21]
 
-9. 애저 펑션이 제공하는 API Key를 캡슐화시킵니다. 아래와 같이 "API AuthN'd by Basic Auth" ➡️ "All operations" ➡️ "Inbound processing" ➡️ "Policies" 항목을 클릭합니다.
+9. 애저 펑션이 제공하는 API Key를 캡슐화시킵니다. 아래와 같이 **API AuthN'd by Basic Auth** ➡️ **All operations** ➡️ **Inbound processing** ➡️ **Policies** 항목을 클릭합니다.
 
     ![API 인바운드 정책 등록][image22]
 
@@ -389,7 +389,7 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
 
     ![API 인바운드 정책 API Key 등록][image23]
 
-11. 이제 API가 제대로 작동하는지 확인해 보겠습니다. 아래 그림과 같이 "API AuthN'd by Basic Auth" ➡️ "Profile" ➡️ "Test" 화면으로 이동하세요. 이후 Header를 하나 추가합니다. **Name** 필드에 `Authorization`, **Value** 필드에 앞서 Swagger UI 화면에서 복사했던 `Basic ***` 인증 토큰을 입력합니다. 그리고 **Send** 버튼을 클릭하세요.
+11. 이제 API가 제대로 작동하는지 확인해 보겠습니다. 아래 그림과 같이 **API AuthN'd by Basic Auth** ➡️ **Profile** ➡️ **Test** 화면으로 이동하세요. 이후 Header를 하나 추가합니다. **Name** 필드에 `Authorization`, **Value** 필드에 앞서 Swagger UI 화면에서 복사했던 `Basic ***` 인증 토큰을 입력합니다. 그리고 **Send** 버튼을 클릭하세요.
 
     ![API 테스트][image24]
 
@@ -404,7 +404,7 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
 
 이번에는 앞서 API 관리자에 등록한 API를 이용해 [파워 플랫폼 커스텀 커넥터][pp cuscon]를 만들어 보겠습니다. 아래 순서대로 따라해 보세요.
 
-1. API 설정을 확인합니다. "API" ➡️ "API AuthN'd by Basic Auth" ➡️ "Settings" 메뉴로 이동합니다.
+1. API 설정을 확인합니다. **API** ➡️ **API AuthN'd by Basic Auth** ➡️ **Settings** 메뉴로 이동합니다.
 
     ![API 설정 화면][image26]
 
@@ -412,7 +412,7 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
 
     ![API 구독 키 비활성화 확인][image27]
 
-3. "API AuthN'd by Basic Auth" 메뉴 옆에 있는 젬 세 개 버튼을 클릭한 후 "Export" 메뉴를 선택합니다. 그리고, "OpenAPI v2 (JSON)" 메뉴를 클릭합니다.
+3. **API AuthN'd by Basic Auth** 메뉴 옆에 있는 젬 세 개 버튼을 클릭한 후 **Export** 메뉴를 선택합니다. 그리고, **OpenAPI v2 (JSON)** 메뉴를 클릭합니다.
 
     ![OpenAPI v2 (JSON) 문서 내보내기][image28]
 
@@ -487,7 +487,7 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
    - 파워 앱: [https://make.powerapps.com](https://make.powerapps.com)
    - 파워 오토메이트: [https://make.powerautomate.com](https://make.powerautomate.com)
 
-8. "데이터" ➡️ "사용자 지정 커넥터" ➡️ "+ 새 사용자 지정 커넥터" ➡️ "OpenAPI 파일 가져오기" 메뉴를 선택합니다.
+8. **데이터** ➡️ **사용자 지정 커넥터** ➡️ **➕ 새 사용자 지정 커넥터** ➡️ **OpenAPI 파일 가져오기** 메뉴를 선택합니다.
 
     ![새 커스텀 커넥터 만들기][image30]
 
@@ -511,7 +511,7 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
 
     ![커스텀 커넥터 생성후 테스트 메뉴 이동][image35]
 
-14. 테스트 화면에서 **+ 새 연결** 버튼을 클릭합니다.
+14. 테스트 화면에서 **➕ 새 연결** 버튼을 클릭합니다.
 
     ![커스텀 커넥터 새 연결][image36]
 
@@ -534,9 +534,7 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
 커스텀 커넥터를 만들고 이를 통해 API 앱을 호출하는 것까지 완성했습니다.
 
 
-
 ## 6. 파워 앱과 파워 오토메이트에서 커스텀 커넥터 사용하기 ##
-
 
 ### 파워 오토메이트 ###
 

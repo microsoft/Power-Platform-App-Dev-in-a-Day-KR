@@ -25,7 +25,7 @@
 
     ![등록한 앱 확인][image02]
 
-3. 위의 앱은 GitHub 액션 워크플로우 용도로 만든 것이므로 사용하지 않고, API 관리자 용도로 하나 다시 만들겠습니다. **+ 새 등록** 메뉴를 클릭합니다.
+3. 위의 앱은 GitHub 액션 워크플로우 용도로 만든 것이므로 사용하지 않고, API 관리자 용도로 하나 다시 만들겠습니다. **➕ 새 등록** 메뉴를 클릭합니다.
 
     ![새 앱 등록][image03]
 
@@ -51,7 +51,7 @@
 
     ![애플리케이션 등록 확인 #2][image07]
 
-8. **인증서 및 암호** 블레이드로 이동해서 새 클라이언트 암호를 등록해야 합니다. **클라이언트 비밀** ➡️ **+ 새 클라이언트 암호** 메뉴를 클릭한 후 아래와 같이 입력합니다. 이후 **추가** 버튼을 클릭합니다.
+8. **인증서 및 암호** 블레이드로 이동해서 새 클라이언트 암호를 등록해야 합니다. **클라이언트 비밀** ➡️ **➕ 새 클라이언트 암호** 메뉴를 클릭한 후 아래와 같이 입력합니다. 이후 **추가** 버튼을 클릭합니다.
 
    - **설명**: `apim` 입력
    - **만료 시간**: `Recommended: 180d dys (6 months)` 선택
@@ -366,7 +366,7 @@
 
     ![액세스 토큰 발급 확인][image28]
 
-14. 방금 발급 받은 액세스 토큰이 Bearer 토큰 형식으로 **Authorization** 헤더에 들어간 것을 확인합니다.
+14. 방금 발급 받은 액세스 토큰이 Bearer 토큰 형식으로 **Authorization** 헤더에 들어간 것을 확인합니다. 이 값을 `Bearer` 부분을 포함해서 잘 복사해 둡니다.
 
     ![Authorization 헤더 확인][image29]
 
@@ -379,7 +379,77 @@
 
 ## 4. API 관리자 연동하기 ##
 
-TBD
+이번에는 [애저 API 관리자][az apim]에 방금 배포한 API 앱을 연동시켜 보겠습니다. 아래 순서대로 따라해 보세요.
+
+1. 아래 명령어를 실행시켜 애저 펑션의 API Key를 받아옵니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
+
+    ```bash
+    AZURE_ENV_NAME="gppb{{랜덤숫자}}"
+    resgrp="rg-$AZURE_ENV_NAME"
+    fncapp="fncapp-$AZURE_ENV_NAME-auth-code-auth"
+
+    fncappKey=$(az functionapp keys list \
+        -g $resgrp \
+        -n $fncapp \
+        --query "functionKeys.default" -o tsv)
+    ```
+
+2. 아래 명령어를 실행시켜 애저 펑션의 API Key를 API 관리자에 등록합니다.
+
+    ```bash
+    apim="apim-$AZURE_ENV_NAME"
+    az apim nv create \
+        -g $resgrp \
+        -n $apim \
+        --named-value-id "X-FUNCTIONS-KEY-AUTH-CODE-AUTH" \
+        --display-name "X-FUNCTIONS-KEY-AUTH-CODE-AUTH" \
+        --value $fncappKey \
+        --secret true
+    ```
+
+3. 애저 포털의 API 관리자 화면에서 API 앱을 등록합니다. **API** ➡️ **➕ Add API** ➡️ **OpenAPI**를 선택하세요.
+
+    ![OpenAPI 문서를 이용해 API 등록][image31]
+
+4. 기본적으로 **Basic**이 선택되어 있는데, 이를 **Full**로 바꿉니다.
+5. **OpenAPI specification** 필드에 앞서 복사해 둔 OpenAPI 문서 주소를 입력합니다. OpenAPI 문서 주소는 아래와 같습니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
+
+    ```text
+    https://fncapp-gppb{{랜덤숫자}}-auth-code-auth.azurewebsites.net/api/swagger.json
+    ```
+
+6. **API URL suffix** 필드에 `authcodeauth`라고 입력합니다.
+7. 마지막으로 **Create** 버튼을 클릭해서 API를 생성합니다.
+
+    ![API 등록 과정][image32]
+
+8. API 등록이 성공한 것을 확인합니다.
+
+    ![API 등록 성공][image33]
+
+9. 애저 펑션이 제공하는 API Key를 캡슐화시킵니다. 아래와 같이 **API AuthN'd by Authorization Code Auth** ➡️ **All operations** ➡️ **Inbound processing** ➡️ **Policies** 항목을 클릭합니다.
+
+    ![API 인바운드 정책 등록][image34]
+
+10. 화면에 보이는 XML 문서의 `policies/inbound` 노드 아래에 아래 내용을 입력한 후 저장합니다.
+
+    ```xml
+    <set-header name="x-functions-key" exists-action="override">
+      <value>{{X-FUNCTIONS-KEY-AUTH-CODE-AUTH}}</value>
+    </set-header>
+    ```
+
+    ![API 인바운드 정책 API Key 등록][image35]
+
+11. 이제 API가 제대로 작동하는지 확인해 보겠습니다. 아래 그림과 같이 **API AuthN'd by Authorization Code Auth** ➡️ **Profile** ➡️ **Test** 화면으로 이동하세요. 이후 Header를 하나 추가합니다. **Name** 필드에 `Authorization`, **Value** 필드에 앞서 Postman 테스트 화면에서 복사했던 `Bearer ***` 인증 토큰을 입력합니다. 그리고 **Send** 버튼을 클릭하세요.
+
+    ![API 테스트][image36]
+
+12. 아래와 같이 테스트 결과가 나오는지 확인해 보세요.
+
+    ![API 테스트 결과][image37]
+
+[애저 API 관리자][az apim]에 [애저 펑션][az fncapp] API 앱을 연동시키는 작업이 끝났습니다.
 
 
 ## 5. API 관리자 OAuth2 등록하기 ##
