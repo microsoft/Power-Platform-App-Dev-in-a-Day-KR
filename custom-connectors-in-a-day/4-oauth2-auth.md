@@ -254,7 +254,7 @@
     popd
     ```
 
-[애저 펑션][az fncapp]을 이용한 API Key 인증용 API 앱에 OpenAPI 기능을 추가하는 과정이 끝났습니다.
+[애저 펑션][az fncapp]을 이용한 OAuth2 인증용 API 앱에 OpenAPI 기능을 추가하는 과정이 끝났습니다.
 
 
 ## 3. GitHub 액션 연동후 자동 배포하기 ##

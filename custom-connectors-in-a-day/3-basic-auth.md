@@ -221,7 +221,7 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
     popd
     ```
 
-[애저 펑션][az fncapp]을 이용한 API Key 인증용 API 앱에 OpenAPI 기능을 추가하는 과정이 끝났습니다.
+[애저 펑션][az fncapp]을 이용한 Basic 인증용 API 앱에 OpenAPI 기능을 추가하는 과정이 끝났습니다.
 
 
 ## 3. GitHub 액션 연동후 자동 배포하기 ##
