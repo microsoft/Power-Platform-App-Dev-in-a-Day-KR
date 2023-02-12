@@ -35,7 +35,7 @@
    - **지원되는 계정 유형**: `이 조직 디렉터리의 계정만(Microsoft만 - 단일 테넌트)` 선택
    - **리디렉션 URI(선택 사항)**: `웹` ➡️ `https://oauth.pstmn.io/v1/browser-callback`
 
-   > 여기서 `https://oauth.pstmn.io/v1/browser-callback`는 이후 잠깐 테스트를 해 볼 [포스트맨](https://www.postman.com)의 콜백 URL입니다.
+     > **NOTE**: 여기서 `https://oauth.pstmn.io/v1/browser-callback`는 이후 잠깐 테스트를 해 볼 [포스트맨](https://www.postman.com)의 콜백 URL입니다.
 
     ![애플리케이션 등록][image04]
 
@@ -76,7 +76,185 @@
 
 ## 2. API 앱 개발하기 ##
 
-TBD
+이미 최소한의 작동을 하는 API 앱이 [애저 펑션][az fncapp]으로 만들어져 있습니다. 이 API 앱을 애저 API 관리자에 연동하기 위한 작업으로 OpenAPI 문서 자동 생성 도구를 추가해 보겠습니다.
+
+1. 아래 명령어를 통해 API 앱을 생성합니다.
+
+    ```bash
+    unzip ./custom-connectors-in-a-day/AuthCodeAuthApp.zip -d ./custom-connectors-in-a-day/src
+    ```
+
+2. 아래 명령어를 실행시켜 방금 생성한 API 앱을 솔루션에 연결시킵니다.
+
+    ```bash
+    pushd ./custom-connectors-in-a-day \
+        && dotnet sln add ./src/AuthCodeAuthApp -s src \
+        && popd
+    ```
+
+3. 아래 명령어를 실행시켜 GitHub 코드스페이스에서 API 앱을 실행시킬 수 있게끔 `local.settings.json` 파일을 생성합니다.
+
+    ```bash
+    pwsh -c "Invoke-RestMethod https://aka.ms/azfunc-openapi/add-codespaces.ps1 | Invoke-Expression"
+    ```
+
+4. 아래 명령어를 통해 API 앱을 실행시킵니다.
+
+    ```bash
+    pushd ./custom-connectors-in-a-day/src/AuthCodeAuthApp \
+        && dotnet restore && dotnet build \
+        && func start
+    ```
+
+5. 아래 팝업창이 나타나면 **Open in Browser** 버튼을 클릭합니다.
+
+    ![새 창에서 API 열기 #1][image11]
+
+6. 아래와 같은 화면이 나타나면 API 앱이 성공적으로 작동하는 것입니다.
+
+    ![애저 펑션 앱 실행 결과 #1][image12]
+
+7. 이제 주소창의 URL 맨 뒤에 `/api/profile`을 붙인후 아래와 같은 결과가 나오는지 확인합니다.
+
+    ![애저 펑션 앱 API 호출 결과][image13]
+
+8. 이제 터미널에서 `Control + C` 키를 눌러 애저 펑션 앱을 종료합니다.
+
+9. 아래 명령어를 실행시켜 리포지토리의 루트 디렉토리로 돌아옵니다.
+
+    ```bash
+    popd
+    ```
+
+10. `custom-connectors-in-a-day/src/AuthCodeAuthApp/AuthCodeAuthApp.csproj` 파일을 열어 아래 부분의 주석을 제거합니다.
+
+    ```xml
+    ...
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+      <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.3" />
+  
+      <!-- ⬇️⬇️⬇️ 아래의 코드 주석을 풀어주세요 ⬇️⬇️⬇️ -->
+      <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.OpenApi" Version="1.*" />
+      <!-- ⬆️⬆️⬆️ 위의 코드 주석을 풀어주세요 ⬆️⬆️⬆️ -->
+    </ItemGroup>
+    ...
+    ```
+
+11. `custom-connectors-in-a-day/src/AuthCodeAuthApp/Startup.cs` 파일을 열어 아래 부분의 주석을 제거합니다.
+
+    ```csharp
+    ...
+    // ⬇️⬇️⬇️ 아래의 코드 주석을 풀어주세요 ⬇️⬇️⬇️
+    using Microsoft.Azure.WebJobs.Extensions.OpenApi.Configurations.AppSettings.Extensions;
+    using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
+    using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Configurations;
+    using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
+    using Microsoft.OpenApi.Models;
+    // ⬆️⬆️⬆️ 위의 코드 주석을 풀어주세요 ⬆️⬆️⬆️
+    ...
+    private static void ConfigureAppSettings(IServiceCollection services)
+    {
+        // ⬇️⬇️⬇️ 아래의 코드 주석을 막아주세요 ⬇️⬇️⬇️
+        // var settings = new GraphSettings();
+        // services.BuildServiceProvider()
+        //         .GetService<IConfiguration>()
+        //         .GetSection(GraphSettings.Name)
+        //         .Bind(settings);
+        // services.AddSingleton(settings);
+        // ⬆️⬆️⬆️ 위의 코드 주석을 막아주세요 ⬆️⬆️⬆️
+
+        // ⬇️⬇️⬇️ 아래의 코드 주석을 풀어주세요 ⬇️⬇️⬇️
+        var settings = services.BuildServiceProvider()
+                                .GetService<IConfiguration>()
+                                .Get<GraphSettings>(GraphSettings.Name);
+        services.AddSingleton(settings);
+
+        var options = new DefaultOpenApiConfigurationOptions()
+        {
+            OpenApiVersion = OpenApiVersionType.V3,
+            Info = new OpenApiInfo()
+            {
+                Version = "1.0.0",
+                Title = "API AuthN'd by Authorization Code Auth",
+                Description = "This is the API authN'd by Authorization Code Auth."
+            }
+        };
+
+        var codespaces = bool.TryParse(Environment.GetEnvironmentVariable("OpenApi__RunOnCodespaces"), out var isCodespaces) && isCodespaces;
+        if (codespaces)
+        {
+            options.IncludeRequestingHostName = false;
+        }
+
+        services.AddSingleton<IOpenApiConfigurationOptions>(options);
+    }
+    ...
+    ```
+
+12. `custom-connectors-in-a-day/src/AuthCodeAuthApp/AuthCodeAuthHttpTrigger.cs` 파일을 열어 아래 부분의 주석을 제거합니다.
+
+    ```csharp
+    ...
+    // ⬇️⬇️⬇️ 아래의 코드 주석을 풀어주세요 ⬇️⬇️⬇️
+    using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+    using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
+    using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
+    using Microsoft.OpenApi.Models;
+    // ⬆️⬆️⬆️ 위의 코드 주석을 풀어주세요 ⬆️⬆️⬆️
+    ...
+    [FunctionName(nameof(ApiKeyAuthHttpTrigger.GetGreeting))]
+
+    // ⬇️⬇️⬇️ 아래의 코드 주석을 풀어주세요 ⬇️⬇️⬇️
+    [OpenApiOperation(operationId: "Profile", tags: new[] { "profile" })]
+    [OpenApiSecurity("bearer_auth", SecuritySchemeType.Http, Scheme = OpenApiSecuritySchemeType.Bearer, BearerFormat = "JWT")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(GraphUser), Description = "The OK response")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "text/plain", bodyType: typeof(string), Description = "The bad request response")]
+    // ⬆️⬆️⬆️ 위의 코드 주석을 풀어주세요 ⬆️⬆️⬆️
+
+    public async Task<IActionResult> GetProfile(
+    ...
+    ```
+
+13. 아래 명령어를 통해 API 앱을 실행시킵니다.
+
+    ```bash
+    pushd ./custom-connectors-in-a-day/src/AuthCodeAuthApp \
+        && dotnet build \
+        && func start
+    ```
+
+14. 아래 팝업창이 나타나면 **Open in Browser** 버튼을 클릭합니다.
+
+    ![새 창에서 API 열기 #2][image14]
+
+15. 아래와 같은 화면이 나타나면 API 앱이 성공적으로 작동하는 것입니다.
+
+    ![애저 펑션 앱 실행 결과 #2][image15]
+
+16. 이제 주소창의 URL 맨 뒤에 `/api/swagger/ui`을 붙인후 아래와 같은 화면이 나오는지 확인합니다.
+
+    ![애저 펑션 Swagger UI][image16]
+
+17. 위 Swagger UI 화면에서 화살표가 가리키는 링크를 클릭합니다.
+
+    ![애저 펑션 Swagger UI에서 swagger.json 문서 링크 클릭][image17]
+
+18. 아래 그림과 같이 `swagger.json`라는 이름으로 OpenAPI 문서가 보이는지 확인합니다.
+
+    ![애저 펑션 OpenAPI 문서 출력][image18]
+
+19. 이제 터미널에서 `Control + C` 키를 눌러 애저 펑션 앱을 종료합니다.
+
+20. 아래 명령어를 실행시켜 리포지토리의 루트 디렉토리로 돌아옵니다.
+
+    ```bash
+    popd
+    ```
+
+[애저 펑션][az fncapp]을 이용한 API Key 인증용 API 앱에 OpenAPI 기능을 추가하는 과정이 끝났습니다.
 
 
 ## 3. GitHub 액션 연동후 자동 배포하기 ##

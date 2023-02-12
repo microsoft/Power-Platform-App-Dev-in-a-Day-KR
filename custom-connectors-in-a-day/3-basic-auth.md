@@ -58,7 +58,7 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
     pwsh -c "Invoke-RestMethod https://aka.ms/azfunc-openapi/add-codespaces.ps1 | Invoke-Expression"
     ```
 
-4. `loca.settings.json` 파일을 열어 아래 부분을 수정합니다. 앞서 기록해 둔 `{{ATLASSIAN_INSTANCE_NAME}}`값으로 대체합니다.
+4. `local.settings.json` 파일을 열어 아래 부분을 수정합니다. 앞서 기록해 둔 `{{ATLASSIAN_INSTANCE_NAME}}`값으로 대체합니다.
 
     ```jsonc
     "Atlassian__InstanceName": "{{ATLASSIAN_INSTANCE_NAME}}",
@@ -103,7 +103,7 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
       <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.3" />
 
       <!-- ⬇️⬇️⬇️ 아래의 코드 주석을 풀어주세요 ⬇️⬇️⬇️ -->
-      <!-- <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.OpenApi" Version="1.*" /> -->
+      <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.OpenApi" Version="1.*" />
       <!-- ⬆️⬆️⬆️ 위의 코드 주석을 풀어주세요 ⬆️⬆️⬆️ -->
     </ItemGroup>
     ...
@@ -161,7 +161,7 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
     ...
     ```
 
-13. `custom-connectors-in-a-day/src/ApiKeyAuthApp/ApiKeyAuthHttpTrigger.cs` 파일을 열어 아래 부분의 주석을 제거합니다.
+13. `custom-connectors-in-a-day/src/BasicAuthApp/BasicAuthHttpTrigger.cs` 파일을 열어 아래 부분의 주석을 제거합니다.
 
     ```csharp
     ...
