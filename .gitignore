@@ -352,3 +352,4 @@ MigrationBackup/
 
 .azure
 azure.yaml
+.DS_Store
