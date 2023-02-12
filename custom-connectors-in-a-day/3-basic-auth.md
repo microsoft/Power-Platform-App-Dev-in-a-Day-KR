@@ -322,7 +322,7 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
         --settings Atlassian__InstanceName=$ATLASSIAN_INSTANCE_NAME
     ```
 
-[애저 펑션][az fncapp]을 이용한 API 앱 배포가 끝났습니다.
+[애저 펑션][az fncapp]을 이용한 Basic 인증용 API 앱 배포가 끝났습니다.
 
 
 ## 4. API 관리자 연동하기 ##

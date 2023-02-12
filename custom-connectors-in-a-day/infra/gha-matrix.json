@@ -10,5 +10,11 @@
     "suffix": "basic-auth",
     "path": "BasicAuthApp",
     "nv": "BASIC_AUTH"
+  },
+  {
+    "name": "authcodeauth",
+    "suffix": "auth-code-auth",
+    "path": "AuthCodeAuthApp",
+    "nv": "AUTH_CODE_AUTH"
   }
 ]

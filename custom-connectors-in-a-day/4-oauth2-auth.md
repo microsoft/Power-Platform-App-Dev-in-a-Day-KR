@@ -259,7 +259,110 @@
 
 ## 3. GitHub 액션 연동후 자동 배포하기 ##
 
-TBD
+앞서 개발한 API 앱을 GitHub 액션 워크플로우를 이용해 애저에 배포합니다. 아래 순서대로 따라해 보세요.
+
+1. `custom-connectors-in-a-day/infra/gha-matrix.json` 파일을 열어 아래와 같이 수정합니다.
+
+    ```jsonc
+    [
+      {
+        "name": "apikeyauth",
+        "suffix": "api-key-auth",
+        "path": "ApiKeyAuthApp",
+        "nv": "API_KEY_AUTH"
+      },
+      {
+        "name": "basicauth",
+        "suffix": "basic-auth",
+        "path": "BasicAuthApp",
+        "nv": "BASIC_AUTH"
+      }, // 👈 쉼표 잊지 마세요
+
+      // ⬇️⬇️⬇️ 아래 JSON 개체를 추가하세요 ⬇️⬇️⬇️
+      {
+        "name": "authcodeauth",
+        "suffix": "auth-code-auth",
+        "path": "AuthCodeAuthApp",
+        "nv": "AUTH_CODE_AUTH"
+      }
+      // ⬆️⬆️⬆️ 위 JSON 개체를 추가하세요 ⬆️⬆️⬆️
+    ]
+    ```
+
+2. 변경한 API 앱을 깃헙에 커밋합니다.
+
+    ```bash
+    git add . \
+        && git commit -m "OAuth2 인증 앱 수정" \
+        && git push origin
+    ```
+
+3. 아래와 같이 GitHub 액션 워크플로우가 자동으로 실행되는 것을 확인합니다.
+
+    ![GitHub 액션 워크플로우 실행중][image09]
+
+4. 아래와 같이 모든 GitHub 액션 워크플로우가 성공적으로 실행된 것을 확인합니다.
+
+    ![GitHub 액션 워크플로우 실행 완료][image10]
+
+5. 웹브라우저 주소창에 방금 배포한 API 앱의 주소를 입력하고 Swagger UI 화면이 나오는지 확인합니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
+
+    ```bash
+    https://fncapp-gppb{{랜덤숫자}}-auth-code-auth.azurewebsites.net/api/swagger/ui
+    ```
+
+    ![배포된 API 앱 Swagger UI][image11]
+
+6. 아래 그림과 같이 **Authorize** 버튼을 클릭합니다.
+
+    ![인증 버튼 클릭][image12]
+
+7. 앞서 생성한 Atlassian 계정의 이메일 주소와 API 토큰을 입력한 후 **Authorize** 버튼을 클릭합니다.
+
+    ![인증 정보 입력][image13]
+
+8. 아래와 같이 자물쇠 모양이 잠긴 것을 확인한 후 **Try it out** 버튼을 클릭합니다.
+
+    ![API 테스트][image14]
+
+9. 이후 **Execute** 버튼을 클릭하면 아래와 같이 `401 Unauthorized` 에러가 나오는 것을 확인하세요.
+
+    ![API 테스트 결과][image15]
+
+10. 아래와 같이 요청 헤더 부분의 `Basic ***`으로 시작하는 문자열을 복사해서 보관합니다. 이후 API 관리자 연동후 테스트 용도로 사용할 인증 키 값입니다.
+
+    ![Basic 인증 키 값 복사][image16]
+
+11. 이제 아래 그림의 화살표가 가리키는 링크를 클릭해서 OpenAPI 문서를 표시합니다.
+
+    ![배포된 API 앱 OpenAPI 문서 링크][image17]
+
+12. OpenAPI 문서가 표시되는 것을 확인합니다.
+
+    ![배포된 API 앱 OpenAPI 문서 생성][image18]
+
+13. 이 OpenAPI 문서의 주소를 복사해 둡니다. 주소는 대략 아래와 같은 형식입니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
+
+    ```text
+    https://fncapp-gppb{{랜덤숫자}}-basic-auth.azurewebsites.net/api/swagger.json
+    ```
+
+14. 아래 명령어를 실행시켜 애저 펑션의 환경 변수 값을 업데이트합니다. `{{ATLASSIAN_INSTANCE_NAME}}` 값을 앞서 기록해 둔 내 Atlassian 인스턴스 이름으로 대체합니다.
+
+    ```bash
+    ATLASSIAN_INSTANCE_NAME="{{ATLASSIAN_INSTANCE_NAME}}"
+    AZURE_ENV_NAME="gppb{{랜덤숫자}}"
+    resgrp="rg-$AZURE_ENV_NAME"
+    fncapp="fncapp-$AZURE_ENV_NAME-basic-auth"
+
+    az functionapp config appsettings set \
+        -g $resgrp \
+        -n $fncapp \
+        --settings Atlassian__InstanceName=$ATLASSIAN_INSTANCE_NAME
+    ```
+
+[애저 펑션][az fncapp]을 이용한 OAuth2 인증용 API 앱 배포가 끝났습니다.
+
 
 
 ## 4. API 관리자 연동하기 ##

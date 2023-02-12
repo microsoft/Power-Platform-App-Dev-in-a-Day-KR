@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiKeyAuthApp", "src\ApiKey
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicAuthApp", "src\BasicAuthApp\BasicAuthApp.csproj", "{02BEB703-EC14-4720-963F-38FB744D6E6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthCodeAuthApp", "src\AuthCodeAuthApp\AuthCodeAuthApp.csproj", "{8FC0A7ED-0044-4D21-A096-3A13B814EEA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{02BEB703-EC14-4720-963F-38FB744D6E6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02BEB703-EC14-4720-963F-38FB744D6E6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02BEB703-EC14-4720-963F-38FB744D6E6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FC0A7ED-0044-4D21-A096-3A13B814EEA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FC0A7ED-0044-4D21-A096-3A13B814EEA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FC0A7ED-0044-4D21-A096-3A13B814EEA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FC0A7ED-0044-4D21-A096-3A13B814EEA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -33,5 +39,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3F8591B6-9B83-4AFA-9E7E-843613957D96} = {30468AFC-4022-4E5D-AEB9-1F629D0C7BA2}
 		{02BEB703-EC14-4720-963F-38FB744D6E6A} = {30468AFC-4022-4E5D-AEB9-1F629D0C7BA2}
+		{8FC0A7ED-0044-4D21-A096-3A13B814EEA4} = {30468AFC-4022-4E5D-AEB9-1F629D0C7BA2}
 	EndGlobalSection
 EndGlobal

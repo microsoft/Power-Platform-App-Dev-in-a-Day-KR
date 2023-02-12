@@ -223,7 +223,7 @@
     https://fncapp-gppb{{랜덤숫자}}-api-key-auth.azurewebsites.net/api/swagger.json
     ```
 
-[애저 펑션][az fncapp]을 이용한 API 앱 배포가 끝났습니다.
+[애저 펑션][az fncapp]을 이용한 API Key 인증용 API 앱 배포가 끝났습니다.
 
 
 ## 3. API 관리자 연동하기 ##
