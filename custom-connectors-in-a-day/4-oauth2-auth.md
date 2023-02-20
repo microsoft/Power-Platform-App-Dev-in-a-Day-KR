@@ -32,9 +32,9 @@
 
    - **이름**: `spn-gppb{{랜덤숫자}}-apim`
    - **지원되는 계정 유형**: `이 조직 디렉터리의 계정만(Microsoft만 - 단일 테넌트)` 선택
-   - **리디렉션 URI(선택 사항)**: `웹` ➡️ `https://oauth.pstmn.io/v1/browser-callback`
+   - **리디렉션 URI(선택 사항)**: `웹` ➡️ `https://oauth.pstmn.io/v1/callback`
 
-     > **NOTE**: 여기서 `https://oauth.pstmn.io/v1/browser-callback`는 이후 잠깐 테스트를 해 볼 [포스트맨](https://www.postman.com)의 콜백 URL입니다.
+     > **NOTE**: 여기서 `https://oauth.pstmn.io/v1/callback`는 이후 잠깐 테스트를 해 볼 [포스트맨](https://www.postman.com)의 콜백 URL입니다.
 
     ![애플리케이션 등록][image04]
 
@@ -46,9 +46,14 @@
 
     ![엔드포인트 확인][image06]
 
-7. 방금 등록한 애플리케이션의 **인증** 블레이드를 클릭해서 등록한 내용을 확인합니다. 이 때 **리디렉션 URI** 항목에 **URI 추가** 버튼을 이용해 `https://oauth.pstmn.io/v1/callback`를 하나 더 추가한 후 저장합니다.
+7. 방금 등록한 애플리케이션의 **인증** 블레이드를 클릭해서 등록한 내용을 확인합니다. 이 때 **리디렉션 URI** 항목에 **URI 추가** 버튼을 이용해 아래 두 URL을 추가한 후 저장합니다.
+
+   - `https://oauth.pstmn.io/v1/browser-callback`
+   - `https://global.consent.azure-apim.net/redirect`
 
     ![애플리케이션 등록 확인 #2][image07]
+
+   > **NOTE**: 위에 추가한 두 콜백 URL은 웹 브라우저 기반 포스트맨과 파워 플랫폼 커스텀 커넥터에서 사용합니다. 지금 추가해 두지 않으면 나중에 테스트할 때 에러가 생길 수 있습니다.
 
 8. **인증서 및 암호** 블레이드로 이동해서 새 클라이언트 암호를 등록해야 합니다. **클라이언트 비밀** ➡️ **➕ 새 클라이언트 암호** 메뉴를 클릭한 후 아래와 같이 입력합니다. 이후 **추가** 버튼을 클릭합니다.
 
@@ -332,7 +337,10 @@
     https://fncapp-gppb{{랜덤숫자}}-auth-code-auth.azurewebsites.net/api/swagger.json
     ```
 
-9. 이 API 앱을 테스트해 보겠습니다. [`https://www.postman.com`](https://www.postman.com)에서 클라이언트 앱을 다운로드 받아 설치합니다.
+9. 이 API 앱을 테스트해 보겠습니다. [포스트맨](https://www.postman.com)에서 클라이언트 앱을 다운로드 받아 설치합니다.
+
+   > **NOTE**: 클라이언트 앱을 실행시킬 때에는 로그인 여부와 상관 없이 사용할 수 있지만, 웹브라우저에서 직접 실행시킬 경우에는 로그인을 해야 합니다.
+
 10. 아래와 같이 주소창에 입력합니다. `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다. 주소창 앞에 **GET**으로 선택하는 것 확인하세요.
 
     ```text
@@ -440,7 +448,7 @@
 
     ![API 인바운드 정책 API Key 등록][image35]
 
-11. 이제 API가 제대로 작동하는지 확인해 보겠습니다. 아래 그림과 같이 **API AuthN'd by Authorization Code Auth** ➡️ **Profile** ➡️ **Test** 화면으로 이동하세요. 이후 Header를 하나 추가합니다. **Name** 필드에 `Authorization`, **Value** 필드에 앞서 Postman 테스트 화면에서 복사했던 `Bearer ***` 인증 토큰을 입력합니다. 그리고 **Send** 버튼을 클릭하세요.
+11. 이제 API가 제대로 작동하는지 확인해 보겠습니다. 아래 그림과 같이 **API AuthN'd by Authorization Code Auth** ➡️ **Profile** ➡️ **Test** 화면으로 이동하세요. 이후 Header를 하나 추가합니다. **Name** 필드에 `Authorization`, **Value** 필드에 앞서 포스트맨 테스트 화면에서 복사했던 `Bearer ***` 인증 토큰을 입력합니다. 그리고 **Send** 버튼을 클릭하세요.
 
     ![API 테스트][image36]
 
@@ -453,7 +461,149 @@
 
 ## 5. 파워 플랫폼 커스텀 커넥터 생성하기 ##
 
-TBD
+이번에는 앞서 API 관리자에 등록한 API를 이용해 [파워 플랫폼 커스텀 커넥터][pp cuscon]를 만들어 보겠습니다. 아래 순서대로 따라해 보세요.
+
+1. API 설정을 확인합니다. **API** ➡️ **API AuthN'd by Authorization Code Auth** ➡️ **Settings** 메뉴로 이동합니다.
+
+    ![API 설정 화면][image38]
+
+2. **Subscription required** 항목에 체크가 비활성화 되어 있는지 확인합니다. 체크가 되어 있다면 체크를 없애 비활성화한 후 저장합니다.
+
+    ![API 구독 키 비활성화 확인][image39]
+
+3. **API AuthN'd by Authorization Code Auth** 메뉴 옆에 있는 젬 세 개 버튼을 클릭한 후 **Export** 메뉴를 선택합니다. 그리고, **OpenAPI v2 (JSON)** 메뉴를 클릭합니다.
+
+    ![OpenAPI v2 (JSON) 문서 내보내기][image40]
+
+4. 컴퓨터에 아래와 같이 저장합니다. 기본 지정된 파일명은 `API AuthN'd by Authorization Code Auth.swagger.json`입니다.
+
+    ![OpenAPI 문서 저장하기][image41]
+
+5. 저장한 문서를 열어 아래와 같이 내용이 있는지 확인합니다.
+
+   - OpenAPI 사양 버전
+   - API 관리자 주소
+   - 인증 방식 &ndash; `apiKeyHeader`, `apiKeyQuery`
+
+    ```jsonc
+    {
+      // OpenAPI 사양 버전
+      "swagger": "2.0",
+      ...
+      // API 관리자 주소
+      "host": "apim-gppb{{랜덤숫자}}.azure-api.net",
+      "basePath": "/authcodeauth",
+      "schemes": [
+        "https"
+      ],
+      // ⬇️⬇️⬇️ 인증 방식 지정 ⬇️⬇️⬇️
+      "securityDefinitions": {
+        "apiKeyHeader": {
+          "type": "apiKey",
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header"
+        },
+        "apiKeyQuery": {
+          "type": "apiKey",
+          "name": "subscription-key",
+          "in": "query"
+        }
+      },
+      "security": [
+        {
+          "apiKeyHeader": []
+        },
+        {
+          "apiKeyQuery": []
+        }
+      ],
+      // ⬆️⬆️⬆️ 인증 방식 지정 ⬆️⬆️⬆️
+    ...
+    ```
+
+6. `securityDefinitions` 어트리뷰트와 `security` 어트리뷰트를 아래와 같이 `authcode_auth`로 바꾸고 저장합니다. 이 때 `{{TENANT_ID}}`는 앞서 [1. OAuth2 인증용 앱 등록하기](#1-oauth2-인증용-앱-등록하기)에서 저장했던 "디렉터리(테넌트) ID" 값으로 대체합니다.
+
+    ```jsonc
+    {
+      ...
+      // ⬇️⬇️⬇️ 인증 방식 지정 ⬇️⬇️⬇️
+      "securityDefinitions": {
+        "authcode_auth": {
+          "type": "oauth2",
+          "scopes": {
+            "https://graph.microsoft.com/.default": "Default scope defined by Microsoft Graph"
+          },
+          "flow": "accessCode",
+          "authorizationUrl": "https://login.microsoftonline.com/{{TENANT_ID}}/oauth2/v2.0/authorize",
+          "tokenUrl": "https://login.microsoftonline.com/{{TENANT_ID}}/oauth2/v2.0/token"
+        }
+      },
+      "security": [
+        {
+          "authcode_auth": [
+            "https://graph.microsoft.com/.default"
+          ]
+        }
+      ],
+      // ⬆️⬆️⬆️ 인증 방식 지정 ⬆️⬆️⬆️
+    ...
+    ```
+
+7. 파워 앱 또는 파워 오토메이트 앱을 실행시킵니다. 여기서는 편의상 파워 오토메이트로 합니다.
+
+   - 파워 앱: [https://make.powerapps.com](https://make.powerapps.com)
+   - 파워 오토메이트: [https://make.powerautomate.com](https://make.powerautomate.com)
+
+8. **데이터** ➡️ **사용자 지정 커넥터** ➡️ **➕ 새 사용자 지정 커넥터** ➡️ **OpenAPI 파일 가져오기** 메뉴를 선택합니다.
+
+    ![새 커스텀 커넥터 만들기][image42]
+
+9. 아래와 같이 **커넥터 이름** 필드에 `AuthCode Auth`라고 입력하고, 앞서 저장했던 `API AuthN'd by Authorization Code Auth.swagger.json` 파일을 불러옵니다. 이후 **계속** 버튼을 클릭합니다.
+
+    ![OpenAPI 문서 불러오기][image43]
+
+10. 일반 정보 화면이 아래와 같이 보입니다. **2. 보안** 탭을 클릭합니다.
+
+    ![커스텀 커넥터 읿반 정보][image44]
+
+11. **인증 형식** 섹션 아래 **API로 구현되는 인증 선택** 필드 값이 `OAuth 2.0`, **OAuth 2.0** 섹션 아래 **ID 공급자** 필드 값이 `Generic Oauth 2`, **Authorization URL**, **Token URL** 필드 값이 각각 `https://login.microsoftonline.com/{{TENANT_ID}}/oauth2/v2.0/authorize`, `https://login.microsoftonline.com/{{TENANT_ID}}/oauth2/v2.0/token`와 같이 채워져 있는 것을 확인합니다. 여기서 `{{TENANT_ID}}`는 앞서 복사해 둔 "디렉터리(테넌트) ID" 값입니다. 마지막으로 **범위** 필드 값이 `https://graph.microsoft.com/.default`와 같이 들어 있는 것을 확인합니다.
+
+    ![커스텀 커넥터 보안][image45]
+
+12. 빠진 **Client id**, **Client secret**, **Refresh URL** 값을 아래와 같이 채워 넣습니다.
+
+    - **Client id**: 앞서 복사해 둔 "애플리케이션(클라이언트) ID" 값
+    - **Client secret**: 앞서 복사해 둔 "클라이언트 암호(시크릿)" 값
+    - **Refresh URL**: **Token URL** 필드 값을 그대로 복사해서 붙여 넣기
+
+    ![커스텀 커넥터 인증 정보 추가][image46]
+
+13. **✔️ 커넥터 만들기** 버튼을 클릭해서 커스텀 커넥터 생성을 마무리합니다.
+
+    ![커스텀 커넥터 만들기][image47]
+
+14. 커스텀 커넥터가 만들어졌습니다. **5. 테스트** 메뉴를 클릭해서 이동합니다.
+
+    ![커스텀 커넥터 생성후 테스트 메뉴 이동][image48]
+
+15. 테스트 화면에서 **➕ 새 연결** 버튼을 클릭합니다.
+
+    ![커스텀 커넥터 새 연결][image49]
+
+16. 이미 **Client ID**, **Client Secret** 값을 커스텀 커넥터를 만들 때 입력해 두었기 때문에 곧바로 새 연결이 만들어지고 아래 그림과 같이 연결이 나타납니다. 만약 연결이 보이지 않는다면 새로 고침 버튼을 클릭합니다.
+
+    ![커스텀 커넥터 연결 생성][image50]
+
+17. 실제로 커스텀 커넥터가 작동하는지 확인해 보기 위해 아래와 같이 **테스트 작업** 버튼을 클릭합니다.
+
+    ![커스텀 커넥터 연결 테스트][image51]
+
+18. 커스텀 커넥터를 통해 API 호출이 성공적으로 이뤄진 것을 확인합니다.
+
+    ![커스텀 커넥터 연결 테스트 성공][image52]
+
+커스텀 커넥터를 만들고 이를 통해 API 앱을 호출하는 것까지 완성했습니다.
+
 
 
 ## 6. 파워 앱과 파워 오토메이트에서 커스텀 커넥터 사용하기 ##
