@@ -694,9 +694,51 @@
 
 ### 파워 앱 ###
 
-TBD
+이번에는 파워 앱에서 커스텀 커넥터를 사용해 보겠습니다. 커스텀 커넥터를 직접 파워 앱에 연결시킬 수도 있지만, 앞서 작성한 파워 오토메이트를 통해 실행시키는 방법으로 진행합니다. 아래 순서대로 따라해 보세요.
 
+1. 빈 캔버스 앱을 하나 준비합니다. **앱 이름**은 `OAuth2 인증 앱`, **형식**은 `휴대폰`으로 설정합니다.
+2. 캔버스에 **단추** 컨트롤 하나, **텍스트 레이블** 컨트롤 두개 추가합니다.
 
+    ![파워 앱 캔버스에 컨트롤 추가][image60]
+
+3. 캔버스 왼쪽의 파워 오토메이트 아이콘을 클릭한 후 **흐름 추가** ➡️ **Basic 인증 플로우**를 선택합니다.
+
+    ![파워 앱에 파워 오토메이트 연결][image61]
+
+4. **단추** 컨트롤을 선택한 후 화면 왼쪽 상단에 **OnSelect**를 선택합니다. 그리고 화면 가운데 상단에 아래와 같은 수식을 입력합니다.
+
+    ```powerappsfl
+    Set(
+        profile,
+        OAuth2인증플로우.Run()
+    )
+    ```
+
+    ![파워 앱 단추 컨트롤에서 파워 오토메이트 호출][image62]
+
+5. 첫번째 **텍스트 레이블** 컨트롤을 선택한 후 화면 왼쪽 상단에 **Text**를 선택합니다. 그리고 화면 가운데 상단에 아래와 같은 수식을 입력합니다.
+
+    ```powerappsfl
+    profile.displayName
+    ```
+
+    ![파워 앱 텍스트 레이블 컨트롤에서 파워 오토메이트 호출 결과 출력 #1][image63]
+
+6. 두번째 **텍스트 레이블** 컨트롤을 선택한 후 화면 왼쪽 상단에 **Text**를 선택합니다. 그리고 화면 가운데 상단에 아래와 같은 수식을 입력합니다.
+
+    ```powerappsfl
+    profile.userPrincipalName
+    ```
+
+    ![파워 앱 텍스트 레이블 컨트롤에서 파워 오토메이트 호출 결과 출력 #2][image64]
+
+7. 이 파워 앱을 실행시킵니다. 그러면 아래와 같이 자기 이름과 로그인 계정 이메일 주소를 보여주는 결과 화면이 나타납니다.
+
+    ![파워 앱 실행 결과][image65]
+
+8. 파워 앱을 저장하고 끝냅니다.
+
+    ![파워 앱 저장][image66]
 
 파워 앱에서 파워 오토메이트를 통해 커스텀 커넥터를 연결하고 API를 호출해 봤습니다.
 
@@ -779,9 +821,6 @@ TBD
 [image64]: ./images/session04-image64.png
 [image65]: ./images/session04-image65.png
 [image66]: ./images/session04-image66.png
-[image67]: ./images/session04-image67.png
-[image68]: ./images/session04-image68.png
-[image69]: ./images/session04-image69.png
 
 
 [az ad]: https://learn.microsoft.com/ko-kr/azure/active-directory/fundamentals/active-directory-whatis?WT.mc_id=dotnet-87051-juyoo
