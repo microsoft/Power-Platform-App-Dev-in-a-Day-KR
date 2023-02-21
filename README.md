@@ -47,3 +47,12 @@ trademarks or logos is subject to and must follow
 [Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
 Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
 Any use of third-party trademarks or logos are subject to those third-party's policies.
+
+[gh signup]: https://github.com/signup
+[az free]: https://azure.microsoft.com/ko-kr/free/?WT.mc_id=dotnet-87051-juyoo
+[m365 dev]: https://aka.ms/gppbkr/m365dev
+[pp dev]: https://aka.ms/gppbkr/ppdev
+[docker desktop]: https://www.docker.com/products/docker-desktop/
+[wsl]: https://aka.ms/gppbkr/wsl
+[vs code]: https://code.visualstudio.com/?WT.mc_id=dotnet-87051-juyoo
+[vs code extensions remote]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack&WT.mc_id=dotnet-87051-juyoo
