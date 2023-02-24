@@ -247,6 +247,7 @@
 
     ```bash
     apim="apim-$AZURE_ENV_NAME"
+
     az apim nv create \
         -g $resgrp \
         -n $apim \
