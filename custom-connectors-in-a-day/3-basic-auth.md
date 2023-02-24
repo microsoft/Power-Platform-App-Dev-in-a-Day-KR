@@ -17,7 +17,7 @@
 
 이번에 개발하는 API는 Atlassian에 있는 내 계정 정보를 받아서 API 호출 결과를 반환합니다. 회사에서 Jira 또는 Confluence를 사용하고 있다면 아마도 계정이 있을 겁니다.
 
-1. [Atlassian 웹사이트](https://www.atlassian.com/ko)에 로그인합니다. 계정이 없으면 새로 만드세요.
+1. [Atlassian 웹사이트](https://www.atlassian.com/ko)에 로그인합니다. 계정이 없으면 새로 만들고 Jira 또는 Confluence 인스턴스를 생성합니다.
 2. 웹 브라우저의 주소창에 보면 아래와 같이 보입니다. 내가 사용하는 Atlassian 인스턴스 이름이 `{{ATLASSIAN_INSTANCE_NAME}}`입니다.
 
     ```text
@@ -346,6 +346,7 @@ Atlassian에 접속하기 위한 email 주소와 API 토큰을 발급 받았습�
 
     ```bash
     apim="apim-$AZURE_ENV_NAME"
+
     az apim nv create \
         -g $resgrp \
         -n $apim \
