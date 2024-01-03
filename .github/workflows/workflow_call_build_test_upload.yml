@@ -28,12 +28,14 @@ jobs:
 
     steps:
     - name: Checkout the repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v1
+    - name: Setup .NET SDKs
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 7.x
+        dotnet-version: |
+          6.x
+          8.x
 
     - name: Restore NuGet packages
       shell: bash
@@ -43,18 +45,18 @@ jobs:
     - name: Build solution
       shell: bash
       run: |
-        dotnet build ./custom-connectors-in-a-day -c Release
+        dotnet build ./custom-connectors-in-a-day -c Release -f net6.0
 
     - name: Test solution
       shell: bash
       run: |
-        dotnet test ./custom-connectors-in-a-day -c Release
+        dotnet test ./custom-connectors-in-a-day -c Release -f net6.0
 
     - name: Create artifacts
       if: inputs.is_pullrequest == 'false'
       shell: bash
       run: |
-        dotnet publish ./custom-connectors-in-a-day -c Release
+        dotnet publish ./custom-connectors-in-a-day -c Release -f net6.0
 
     - name: Add app paths to env
       if: inputs.is_pullrequest == 'false'
