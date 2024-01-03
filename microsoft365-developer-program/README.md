@@ -10,7 +10,6 @@ https://account.microsoft.com
 
 > **NOTE**: 이미 Microsoft Account가 있다면 건너뛰어도 좋습니다.
 
-
 ## Microsoft 365 개발자 프로그램 ##
 
 회사에서 제공하는 M365 테넌트를 사용해도 되지만, 이럴 경우 회사 보안정책에 따라 파워 플랫폼의 모든 기능을 다 사용할 수 없을 수도 있습니다. 따라서, 파워 플랫폼 부트캠프에서 아무 제약사항 없이 파워 플랫폼을 사용하기 위해서는 먼저 [M365 개발자 프로그램][m365 dev program]에 가입하는 것이 좋습니다. 가입 과정이 조금 복잡하니 아래 순서대로 꼭 따라해 주세요.
@@ -76,7 +75,6 @@ https://account.microsoft.com
 
 이렇게 M365 개발자 프로그램에 가입했습니다.
 
-
 ## 파워 앱 개발자 프로그램 가입 ##
 
 M365 개발자 프로그램에 가입한 후 파워 플랫폼도 개발자 프로그램에 가입해서 프리미엄 기능을 무료로 사용할 수 있습니다. 파워 플랫폼 부트캠프에서 아무 제약사항 없이 파워 플랫폼을 사용하기 위해서는 먼저 [파워 플랫폼 개발자 프로그램][pp dev program]에 가입하는 것이 좋습니다.
@@ -120,9 +118,7 @@ M365 개발자 프로그램에 가입한 후 파워 플랫폼도 개발자 프�
 
 이제 실제로 앱을 만들어 보기로 합시다!
 
-- 파워 앱과 파워 오토메이트를 이용한 인사관리 시스템 고도화
 - [파워 플랫폼 커스텀 커넥터와 애저 백엔드 통합하기](../custom-connectors-in-a-day)
-
 
 [image01]: ./images/image01.png
 [image02]: ./images/image02.png
@@ -138,7 +134,6 @@ M365 개발자 프로그램에 가입한 후 파워 플랫폼도 개발자 프�
 [image12]: ./images/image12.png
 [image13]: ./images/image13.png
 [image14]: ./images/image14.png
-
 
 [m365 dev program]: https://aka.ms/gppbkr/m365dev
 [pp dev program]: https://aka.ms/gppbkr/ppdev
