@@ -10,6 +10,9 @@ git config --global core.autocrlf input
 ## Enable local HTTPS for .NET
 dotnet dev-certs https --trust
 
+## Update .NET workload
+sudo dotnet workload update
+
 # D2Coding Nerd Font
 # Uncomment the below to install the D2Coding Nerd Font
 mkdir $HOME/.local

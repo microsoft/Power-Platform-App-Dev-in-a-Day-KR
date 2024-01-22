@@ -20,6 +20,7 @@
 
 - [Microsoft 365 개발자 프로그램 가입](./microsoft365-developer-program)
 - [파워 플랫폼 커스텀 커넥터와 애저 백엔드 통합하기](./custom-connectors-in-a-day)
+- [파워 플랫폼 커스텀 커넥터와 CI/CD 파이프라인](./devops-in-a-day)
 
 ---
 
