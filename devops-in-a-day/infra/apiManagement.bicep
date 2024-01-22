@@ -5,9 +5,6 @@ param appInsightsId string
 @secure()
 param appInsightsInstrumentationKey string
 
-param gitHubUsername string
-param gitHubRepositoryName string
-
 param apiManagementPublisherName string
 param apiManagementPublisherEmail string
 
@@ -33,30 +30,9 @@ var apiManagement = {
     skuCapacity: 0
     publisherName: apiManagementPublisherName
     publisherEmail: apiManagementPublisherEmail
-    gitHubUsername: gitHubUsername
-    gitHubRepositoryName: gitHubRepositoryName
     policyFormat: apiManagementPolicyFormat
     policyValue: apiManagementPolicyValue
 }
-
-var dicts = [
-    {
-        name: 'AZURE_ENV_NAME'
-        value: name
-    }
-    {
-        name: 'APIM_NAME'
-        value: apiManagement.name
-    }
-    {
-        name: 'GITHUB_USERNAME'
-        value: apiManagement.gitHubUsername
-    }
-    {
-        name: 'GITHUB_REPOSITORY_NAME'
-        value: apiManagement.gitHubRepositoryName
-    }
-]
 
 resource apim 'Microsoft.ApiManagement/service@2021-08-01' = {
     name: apiManagement.name
@@ -74,17 +50,9 @@ resource apim 'Microsoft.ApiManagement/service@2021-08-01' = {
     }
 }
 
-resource apimNamedValue 'Microsoft.ApiManagement/service/namedValues@2021-08-01' = [for (dict, index) in dicts: {
-    name: '${apim.name}/${dict.name}'
-    properties: {
-        displayName: dict.name
-        secret: true
-        value: dict.value
-    }
-}]
-
 resource apimlogger 'Microsoft.ApiManagement/service/loggers@2021-08-01' = {
-    name: '${apim.name}/${appInsights.name}'
+    name: appInsights.name
+    parent: apim
     properties: {
         loggerType: 'applicationInsights'
         resourceId: appInsights.id
@@ -95,10 +63,8 @@ resource apimlogger 'Microsoft.ApiManagement/service/loggers@2021-08-01' = {
 }
 
 resource apimpolicy 'Microsoft.ApiManagement/service/policies@2021-08-01' = {
-    name: '${apim.name}/policy'
-    dependsOn: [
-        apimNamedValue
-    ]
+    name: 'policy'
+    parent: apim
     properties: {
         format: apiManagement.policyFormat
         value: apiManagement.policyValue
@@ -106,7 +72,8 @@ resource apimpolicy 'Microsoft.ApiManagement/service/policies@2021-08-01' = {
 }
 
 resource apimproduct 'Microsoft.ApiManagement/service/products@2021-08-01' = {
-    name: '${apim.name}/default'
+    name: 'default'
+    parent: apim
     properties: {
         displayName: 'Default Product'
         description: 'This is the default product created by the template, which includes all APIs.'

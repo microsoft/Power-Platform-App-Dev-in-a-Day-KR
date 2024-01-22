@@ -13,7 +13,9 @@
     // Azure Functions
     7071,
     // Azurite
-    10000, 10001, 10002
+    10000, 10001, 10002,
+    // ASP.NET Core Web App
+    5000, 5001
   ],
 
   "features": {
