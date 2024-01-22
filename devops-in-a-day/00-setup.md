@@ -84,10 +84,18 @@
     az account list --query "[].name" -o tsv
     ```
 
-1. 위의 리스트에서 내가 원하는 구독 이름이 `azure-gppb` 이라고 가정합니다. 그러면 아래 명령어를 통해 내가 원하는 구독으로 설정합니다.
+   그러면 구독 리스트를 볼 수 있습니다. 아래는 예시입니다.
 
     ```bash
-    az account set --subscription azure-gppb
+    Azure Subscription 1
+    Azure GPPB
+    My Subscription
+    ```
+
+1. 위의 리스트에서 내가 원하는 구독 이름이 `Azure GPPB` 이라고 가정합니다. 그러면 아래 명령어를 통해 내가 원하는 구독으로 설정합니다.
+
+    ```bash
+    az account set --subscription "Azure GPPB"
     ```
 
 1. 다시 아래 명령어를 통해 내가 원하는 구독으로 바뀌었는지 확인합니다.

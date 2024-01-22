@@ -4,7 +4,13 @@
 
 ## 1. 애저에 리소스 생성하기 ##
 
-1. 아래와 같이 랜덤 숫자를 생성합니다. 랜덤 숫자 자릿수가 4자리, 5자리, 6자리 등 다양하게 나오는데, 5자리까지만 끊어주세요.
+1. 아래 명령어를 통해 작업 디렉토리로 이동합니다. 이곳이 이번 세션에서 사용할 디렉토리입니다.
+
+   ```bash
+   cd $CODESPACE_VSCODE_FOLDER/devops-in-a-day
+   ```
+
+1. 아래와 같이 랜덤 숫자를 생성합니다. 랜덤 숫자 자릿수가 4자리, 5자리, 6자리 등 다양하게 나옵니다.
 
     ```bash
     AZURE_ENV_NAME="gppb$RANDOM"
@@ -21,6 +27,7 @@
    - How do you want to initialize your app: `Select a template`
    - Continue initializing an app in '/workspaces/Power-Platform-App-Dev-in-a-Day-KR/devops-in-a-day: 'Y'
    - Select a project template: `Minimal`
+   - What would you like to do with these files: `Overwrite with versions from template`
 
 1. 아래 파일이 만들어진 것을 확인합니다.
 
@@ -36,7 +43,7 @@
 
     infra:
       provider: "bicep"
-      path: "devops-in-a-day/infra"
+      path: "infra"
       module: "main"
 
     pipeline:
