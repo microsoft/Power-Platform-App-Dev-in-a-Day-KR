@@ -7,21 +7,20 @@
 1. 아래와 같이 랜덤 숫자를 생성합니다. 랜덤 숫자 자릿수가 4자리, 5자리, 6자리 등 다양하게 나오는데, 5자리까지만 끊어주세요.
 
     ```bash
-    echo $RANDOM
+    AZURE_ENV_NAME="gppb$RANDOM"
     ```
 
 1. 앞서 이미 [애저 Dev CLI][azd cli]를 통해 애저에 로그인했습니다. 아래 명령어를 이용해 `azd` 환경 설정을 시작합니다.
 
     ```bash
-    azd init
+    azd init -e $AZURE_ENV_NAME
     ```
 
 1. 프롬프트에 따라 아래와 같이 입력합니다.
 
-   - Select a project template: `Empty Template`
-   - Please enter a new environment name: `gppb{{랜덤숫자}}` ⬅️ `{{랜덤숫자}}`는 앞서 `echo $RANDOM`으로 생성한 숫자를 가리킵니다.
-   - Please select an Azure Subscription to use: 구독 이름 선택
-   - Please select an Azure location to use: `(Asia Pacific) Korea Central (koreacentral)`
+   - How do you want to initialize your app: `Select a template`
+   - Continue initializing an app in '/workspaces/Power-Platform-App-Dev-in-a-Day-KR/devops-in-a-day: 'Y'
+   - Select a project template: `Minimal`
 
 1. 아래 파일이 만들어진 것을 확인합니다.
 
@@ -47,8 +46,13 @@
 1. 아래 명령어를 실행시켜 애저에 리소스를 생성합니다.
 
     ```bash
-    azd up
+    azd provision
     ```
+
+1. 프롬프트에 따라 아래와 같이 입력합니다.
+
+   - Select an Azure Subscription to use: 구독 이름 선택
+   - Select an Azure location to use: `(Asia Pacific) Korea Central (koreacentral)`
 
 1. [애저 포털][az portal]에서 생성된 리소스를 확인합니다.
 

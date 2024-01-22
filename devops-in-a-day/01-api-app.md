@@ -21,43 +21,45 @@
 
 1. `src/ApiApp/Program.cs` 파일을 열고 아래와 같이 수정합니다.
 
-```csharp
-// 수정 전
-builder.Services.AddSwaggerGen();
-
-// 수정 후
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "GPPB Backend API", Version = "v1" });
-});
-```
+    ```csharp
+    // 수정 전
+    builder.Services.AddSwaggerGen();
+    
+    // 수정 후
+    builder.Services.AddSwaggerGen(options =>
+    {
+        options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "GPPB Backend API", Version = "v1" });
+    });
+    ```
 
 1. `src/ApiApp/Program.cs` 파일을 열고 아래와 같이 수정합니다.
 
-```csharp
-// 수정 전
-app.MapGet("/weatherforecast", () =>
-{
-    ...
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
-
-// 수정 후
-app.MapGet("/weatherforecast", () =>
-{
-    ...
-})
-.WithTags("weather") // 👈 추가
-.WithName("GetWeatherForecast")
-.WithOpenApi();
-```
+    ```csharp
+    // 수정 전
+    app.MapGet("/weatherforecast", () =>
+    {
+        ...
+    })
+    .WithName("GetWeatherForecast")
+    .WithOpenApi();
+    
+    // 수정 후
+    app.MapGet("/weatherforecast", () =>
+    {
+        ...
+    })
+    .WithTags("weather") // 👈 추가
+    .WithName("GetWeatherForecast")
+    .WithOpenApi();
+    ```
 
 1. 아래 명령어를 실행시켜 백엔드 API 프로젝트를 실행하여 변경 사항을 확인합니다.
 
     ```bash
     dotnet watch run --project ./src/ApiApp
     ```
+
+   > **NOTE**: 만약 브라우저의 새 탭이 열려서 Swagger UI가 열리지 않았다면 주소창의 맨 마지막에 `/swagger`를 추가한 후 다시 실행시킵니다.
 
 ---
 
