@@ -12,34 +12,23 @@
 
 ## 목차 ##
 
-0. [개발 환경 설정하기](./0-setup.md)
-1. [애저 Dev CLI 이용해서 애저 인스턴스 만들기](./1-azd.md)
-2. [API 개발, 애저 API 관리자와 통합, 그리고 커스텀 커넥터 만들기](./2-custom-connector.md)
-3. [파워 플랫폼 CLI로 솔루션 익스포트하기](./3-power-platform-cli.md)
-4. [GitHub 액션으로 파워 플랫폼 앱 관리하기](./4-github-actions.md)
+0. [개발 환경 설정하기](./00-setup.md)
+1. [백엔드 API 개발하기](./01-api-app.md)
+2. [애저 Dev CLI 이용해서 애저 인스턴스 만들기](./02-azd.md)
+3. [애저 API 관리자와 통합, 그리고 커스텀 커넥터 만들기](./03-custom-connector.md)
+4. [파워 플랫폼 CLI로 솔루션 익스포트하기](./04-power-platform-cli.md)
+5. [GitHub 액션으로 파워 플랫폼 앱 관리하기](./05-github-actions.md)
 
 
-[gh signup]: https://github.com/signup
 [gh codespaces]: https://github.com/features/codespaces
 [gh actions]: https://github.com/features/actions
 
 [azd cli]: https://learn.microsoft.com/ko-kr/azure/developer/azure-developer-cli/overview?WT.mc_id=dotnet-87051-juyoo
 [az cli]: https://learn.microsoft.com/ko-kr/cli/azure/what-is-azure-cli?WT.mc_id=dotnet-87051-juyoo
 
-[az free]: https://azure.microsoft.com/ko-kr/free/?WT.mc_id=dotnet-87051-juyoo
 [az apim]: https://learn.microsoft.com/ko-kr/azure/api-management/api-management-key-concepts?WT.mc_id=dotnet-87051-juyoo
 
-[m365 dev]: https://developer.microsoft.com/microsoft-365/dev-program?WT.mc_id=dotnet-87051-juyoo
-
-[pp dev]: https://powerapps.microsoft.com/developerplan/?WT.mc_id=dotnet-87051-juyoo
 [pp apps]: https://learn.microsoft.com/ko-kr/power-apps/powerapps-overview?WT.mc_id=dotnet-87051-juyoo
 [pp auto]: https://learn.microsoft.com/ko-kr/power-automate/getting-started?WT.mc_id=dotnet-87051-juyoo
 [pp cuscon]: https://learn.microsoft.com/ko-kr/connectors/custom-connectors/?WT.mc_id=dotnet-87051-juyoo
 [pp cli]: https://learn.microsoft.com/ko-kr/power-platform/developer/cli/introduction?WT.mc_id=dotnet-87051-juyoo
-
-[docker desktop]: https://docs.docker.com/desktop/
-
-[wsl]: https://learn.microsoft.com/ko-kr/windows/wsl/install?WT.mc_id=dotnet-87051-juyoo
-
-[vs code]: https://code.visualstudio.com/?WT.mc_id=dotnet-87051-juyoo
-[vs code extensions remote]: https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack&WT.mc_id=dotnet-87051-juyoo
