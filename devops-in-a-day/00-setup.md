@@ -19,14 +19,20 @@
    👉 Azure OpenAI 프록시 플레이그라운드 링크: [https://proxy.aoai.kr/playground](https://proxy.aoai.kr/playground)
 -->
 
-## GitHub Codespaces 시작
+## 1. Microsoft 365 개발자 프로그램 및 파워 플랫폼 개발자 프로그램 가입
+
+이 부트캠프에서는 Microsoft 365 개발자 프로그램 및 파워 플랫폼 개발자 프로그램에 이미 사용자의 계정을 생성해 두었습니다. 하지만 직접 가입하고 싶다면 아래 링크를 통해 Microsoft 365 개발자 프로그램에 가입합니다.
+
+👉 [Microsoft 365 개발자 프로그램 가입 방법](../microsoft365-developer-program)
+
+## 2. GitHub Codespaces 시작
 
 1. 이 리포지토리를 자신의 GitHub 계정으로 포크합니다.
 1. 포크한 리포지토리에서 GitHub Codespaces 인스턴스를 생성합니다.
 
-    ![GitHub Codespaces 인스턴스 생성하기](./images/00-setup-01.png)
+    ![GitHub Codespaces 인스턴스 생성하기][image-01]
 
-## GitHub Codespaces 개발 환경 확인
+## 3. GitHub Codespaces 개발 환경 확인
 
 1. 아래 명령어를 실행시켜 필요한 개발 도구가 설치되어 있는지 확인합니다.
 
@@ -38,7 +44,7 @@
     dotnet --list-sdks
     ```
 
-## 애저 Dev CLI 로그인
+## 4. 애저 Dev CLI 로그인
 
 1. [애저 Dev CLI][azd cli]를 이용해서 애저에 로그인합니다. 아래 명령어를 입력하세요.
 
@@ -58,7 +64,7 @@
     azd auth login --check-status
     ```
 
-## 애저 CLI 로그인
+## 5. 애저 CLI 로그인
 
 1. [애저 CLI][az cli] 명령어를 통해 다시 애저에 로그인합니다. 아래 명령어를 입력하세요.
 
@@ -107,6 +113,8 @@
 ---
 
 축하합니다! 개발 환경 설정이 끝났습니다. 이제 [Session 01: 백엔드 API 개발하기](./01-api-app.md)로 넘어가세요.
+
+[image-01]: ./images/00-image-01.png
 
 [azd cli]: https://learn.microsoft.com/ko-kr/azure/developer/azure-developer-cli/overview?WT.mc_id=dotnet-87051-juyoo
 [az cli]: https://learn.microsoft.com/ko-kr/cli/azure/what-is-azure-cli?WT.mc_id=dotnet-87051-juyoo
