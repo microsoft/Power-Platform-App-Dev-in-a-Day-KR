@@ -63,13 +63,13 @@
 
 1. [애저 포털][az portal]에서 생성된 리소스를 확인합니다.
 
-    ![리소스 프로비저닝 결과][image01]
+    ![리소스 프로비저닝 결과][image-01]
 
 ---
 
 축하합니다! 애저 Dev CLI를 이용해서 애저에 앱 배포를 위핸 인스턴스 생성을 마쳤습니다. 이제 [Session 03: 애저 API 관리자와 통합, 그리고 커스텀 커넥터 만들기](./03-custom-connector.md)로 넘어가세요.
 
-[image01]: ./images/01-image01.png
+[image-01]: ./images/02-image-01.png
 
 [az portal]: https://portal.azure.com?WT.mc_id=dotnet-87051-juyoo
 
