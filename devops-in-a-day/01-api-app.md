@@ -2,7 +2,7 @@
 
 이번 워크샵에서 사용할 백엔드 API를 만들어 보기로 합니다. 여기서는 [ASP.NET Core Minimal API][aspnet minimal api]를 사용합니다.
 
-## 백엔드 API 프로젝트 설정
+## 1. 백엔드 API 프로젝트 설정
 
 1. 아래 명령어를 통해 작업 디렉토리로 이동합니다. 이곳이 이번 세션에서 사용할 디렉토리입니다.
 
@@ -32,9 +32,14 @@
     dotnet watch run --project ./src/ApiApp
     ```
 
-   > **NOTE**: 만약 브라우저의 새 탭이 열려서 Swagger UI가 열리지 않았다면 주소창의 맨 마지막에 `/swagger`를 추가한 후 다시 실행시킵니다.
+   > **NOTE**:
+   > 
+   > - 만약 브라우저의 새 탭이 열리지 않는다면, 웹 브라우저의 팝업창을 허용해 주세요.
+   > - 만약 브라우저의 새 탭이 열려서 Swagger UI가 열리지 않았다면 주소창의 맨 마지막에 `/swagger`를 추가한 후 다시 실행시킵니다.
 
-1. 터미널에서 Ctrl + C 또는 Cmd + C 키를 눌러 백엔드 API 프로젝트를 종료합니다.
+1. 터미널에서 `Ctrl + C` 또는 `Cmd + C` 키를 눌러 백엔드 API 프로젝트를 종료합니다.
+
+## 2. 백엔드 API 개발
 
 1. `src/ApiApp/Program.cs` 파일을 열고 아래와 같이 수정합니다.
 
@@ -76,7 +81,10 @@
     dotnet watch run --project ./src/ApiApp
     ```
 
-   > **NOTE**: 만약 브라우저의 새 탭이 열려서 Swagger UI가 열리지 않았다면 주소창의 맨 마지막에 `/swagger`를 추가한 후 다시 실행시킵니다.
+   > **NOTE**:
+   > 
+   > - 만약 브라우저의 새 탭이 열리지 않는다면, 웹 브라우저의 팝업창을 허용해 주세요.
+   > - 만약 브라우저의 새 탭이 열려서 Swagger UI가 열리지 않았다면 주소창의 맨 마지막에 `/swagger`를 추가한 후 다시 실행시킵니다.
 
 1. `GetWeatherForecast` API를 클릭하고 `Try it out` 버튼을 클릭한 후 `Execute` 버튼을 클릭합니다. 데이터가 잘 나오는지 확인합니다.
 
