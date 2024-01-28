@@ -355,3 +355,4 @@ local.settings.json
 .azure
 azure.yaml
 .DS_Store
+.zip

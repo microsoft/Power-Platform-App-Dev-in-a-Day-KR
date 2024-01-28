@@ -16,7 +16,7 @@
 1. [백엔드 API 개발하기](./01-api-app.md)
 2. [애저 Dev CLI 이용해서 애저 인스턴스 만들기](./02-azd.md)
 3. [애저 API 관리자와 통합, 그리고 커스텀 커넥터 만들기](./03-custom-connector.md)
-4. [파워 플랫폼 CLI로 솔루션 익스포트하기](./04-power-platform-cli.md)
+4. [파워 플랫폼 CLI로 솔루션 내보내기](./04-power-platform-cli.md)
 5. [GitHub 액션으로 파워 플랫폼 앱 관리하기](./05-github-actions.md)
 
 
