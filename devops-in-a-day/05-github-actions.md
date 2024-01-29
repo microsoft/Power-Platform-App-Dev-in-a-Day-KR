@@ -26,13 +26,13 @@
 
 ## 2. GitHub 액션 워크플로우 만들기 - 구조 설계
 
-1. GitHub 액션 작업을 위해 아래 명령어를 통해 작업 디렉토리로 이동합니다.
+1. GitHub 코드스페이스에서 GitHub 액션 작업을 위해 아래 명령어를 통해 작업 디렉토리로 이동합니다.
 
     ```bash
     cd $CODESPACE_VSCODE_FOLDER
     ```
 
-1. 아래와 같이 GitHub 액션 워크플로우를 위한 기본 구조를 만듭니다.
+1. 아래 명령어를 차례로 실행시켜 GitHub 액션 워크플로우를 위한 기본 구조를 만듭니다.
 
     ```bash
     mkdir -p .github/workflows
@@ -103,6 +103,18 @@
     ```
 
 1. `devops-in-a-day/src/ApiApp/Program.cs` 파일을 열어 맨 아래 빈 줄을 하나 추가한 후 커밋하여 푸시합니다.
+
+    ```bash
+    git add .
+    git commit -m "Update Backend API"
+    git push origin
+    ```
+
+   > **NOTE**: 혹시 원격 리포지토리로 푸시가 안된다면, 아래 명령어를 실행시켜 보세요.
+   > 
+   > ```bash
+   > git push --set-upstream origin main
+   > ```
 
 1. GitHub 액션 워크플로우가 자동으로 실행되는 것을 확인합니다.
 

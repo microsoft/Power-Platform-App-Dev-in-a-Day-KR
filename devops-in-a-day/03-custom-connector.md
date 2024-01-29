@@ -47,7 +47,7 @@
    - Display name: `GPPB Backend API`
    - Name: `gppb-backend-api`
    - API URL suffix: `gppb`
-   - Products: `Default Product`
+   - Products: `Default Product [Open]` 선택
 
     ![API 관리자 - API 추가][image-06]
 
@@ -63,7 +63,29 @@
 
     ![API 관리자 - Subscriptions][image-08]
 
-## 2. 파워 플랫폼 커스텀 커넥터 만들기
+   > **NOTE**: 만약 복사할 수 없다면, 오른쪽의 점 세개 버튼을 클릭한 후 `Show/hide keys` 메뉴를 클릭해서 키 값이 보이게 한 후 복사합니다.
+
+## 2. 파워 플랫폼 개발자 환경 만들기
+
+1. 파워 플랫폼 개발자 환경을 사용하기 위해서는 우선 아래 URL로 로그인합니다.
+
+    ```text
+    https://make.preview.powerapps.com
+    ```
+
+1. 우측 상단의 `환경` 메뉴를 클릭한  `지금 시도` 버튼을 클릭합니다.
+
+    ![개발자 환경 만들기][image-09]
+
+1. 아래와 같이 입력하고 `만들기` 버튼을 클릭합니다.
+   - 이름: `Participant {{숫자}} Environment`
+   - 지역: `대한민국`
+
+    ![개발자 환경 상세 내용 입력][image-10]
+
+1. 만들어진 후 `Participant {{숫자}} Environment` 환경으로 이동합니다.
+
+## 3. 파워 플랫폼 커스텀 커넥터 만들기
 
 1. 파워 오토메이트에 접속합니다.
 
@@ -71,19 +93,19 @@
     https://make.powerautomate.com
     ```
 
-1. 두 개의 환경이 보입니다. 그 중 `Global Power Platform Bootcamp (default)` 대신 반드시 `Participant`로 시작하는 환경을 선택합니다.
+1. 두 개의 환경이 보입니다. 그 중 `Global Power Platform Bootcamp (default)` 대신 반드시 `Participant {{숫자}} Environment` 환경을 선택합니다.
 
 1. 사용자 지정 커넥터 메뉴에서 `➕ 새 사용자 지정 커넥터` 👉 `OpenAPI 파일 가져오기` 메뉴를 선택합니다.
 
-    ![사용자 지정 커넥터][image-09]
+    ![사용자 지정 커넥터][image-11]
 
 1. 커넥터 이름을 `GPPB`로 하고 앞서 다운로드 받은 OpenAPI 문서를 업로드합니다.
 
-1. 설명 필드에 적당한 내용을 입력하고 `✔️ 커넥터 만들기` 버튼을 클릭해서 커스텀 커넥터를 만듭니다.
+1. 설명 필드에 `Custom Connector for Global Power Platform Bootcamp` 라고 입력한 후 `✔️ 커넥터 만들기` 버튼을 클릭해서 커스텀 커넥터를 만듭니다.
 
 1. **테스트** 탭으로 이동하여 `➕ 새 연결` 버튼을 통해 연결을 만들고, `테스트 작업` 버튼을 클릭하여 잘 작동하는지 확인합니다.
 
-## 3. 파워 오토메이트 워크플로우에서 커스텀 커넥터 사용하기
+## 4. 파워 오토메이트 워크플로우에서 커스텀 커넥터 사용하기
 
 1. 파워 오토메이트에 접속합니다.
 
@@ -91,7 +113,7 @@
     https://make.powerautomate.com
     ```
 
-1. 두 개의 환경이 보입니다. 그 중 `Global Power Platform Bootcamp (default)` 대신 반드시 `Participant`로 시작하는 환경을 선택합니다.
+1. 두 개의 환경이 보입니다. 그 중 `Global Power Platform Bootcamp (default)` 대신 반드시 `Participant {{숫자}} Environment` 환경을 선택합니다.
 
 1. 왼쪽의 `➕ 만들기` 메뉴에서 `인스턴트 클라우드 흐름` 버튼을 클릭합니다.
 
@@ -138,5 +160,7 @@
 [image-07]: ./images/03-image-07.png
 [image-08]: ./images/03-image-08.png
 [image-09]: ./images/03-image-09.png
+[image-10]: ./images/03-image-10.png
+[image-11]: ./images/03-image-11.png
 
 [az apim]: https://learn.microsoft.com/ko-kr/azure/api-management/api-management-key-concepts?WT.mc_id=dotnet-87051-juyoo
