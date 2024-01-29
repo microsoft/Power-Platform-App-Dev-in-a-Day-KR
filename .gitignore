@@ -349,10 +349,9 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-
-local.settings.json
+.DS_Store
+*.bak
+*.org
 
 .azure
 azure.yaml
-.DS_Store
-.zip

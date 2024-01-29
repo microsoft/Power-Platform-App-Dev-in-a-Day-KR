@@ -1,0 +1,59 @@
+name: Deploy Power Platform Solution
+
+on:
+  workflow_dispatch:
+    inputs:
+      solutionName:
+        description: 'Solution Name'
+        required: true
+        default: 'GPPB'
+      solutionPath:
+        description: 'Solution Path'
+        required: true
+        default: 'devops-in-a-day/src/PowerPlatform'
+      solutionType:
+        description: 'Solution Type'
+        required: true
+        default: 'Unmanaged'
+
+env:
+  ENVIRONMENT_URL: ${{ secrets.ENVIRONMENT_URL }}
+  APPLICATION_ID: ${{ secrets.APPLICATION_ID }}
+  CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+  DIRECTORY_ID: ${{ secrets.DIRECTORY_ID }}
+
+jobs:
+  deploy_solution:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Power Platform Tools
+        uses: microsoft/powerplatform-actions/actions-install@v1
+
+      - name: Who am I?
+        uses: microsoft/powerplatform-actions/who-am-i@v1
+        with:
+          environment-url: ${{ env.ENVIRONMENT_URL }}
+          app-id: ${{ env.APPLICATION_ID }}
+          client-secret: ${{ env.CLIENT_SECRET }}
+          tenant-id: ${{ env.DIRECTORY_ID }}
+
+      - name: Pack solution
+        uses: microsoft/powerplatform-actions/pack-solution@v1
+        with:
+          solution-file: ${{ github.event.inputs.solutionPath }}/${{ github.event.inputs.solutionName }}.zip
+          solution-folder: ${{ github.event.inputs.solutionPath }}/${{ github.event.inputs.solutionName }}
+          solution-type: ${{ github.event.inputs.solutionType }}
+    
+      - name: Deploy solution
+        uses: microsoft/powerplatform-actions/import-solution@v1
+        with:
+          environment-url: ${{ env.ENVIRONMENT_URL }}
+          app-id: ${{ env.APPLICATION_ID }}
+          client-secret: ${{ env.CLIENT_SECRET }}
+          tenant-id: ${{ env.DIRECTORY_ID }}
+          solution-file: ${{ github.event.inputs.solutionPath }}/${{ github.event.inputs.solutionName }}.zip
+          force-overwrite: true
