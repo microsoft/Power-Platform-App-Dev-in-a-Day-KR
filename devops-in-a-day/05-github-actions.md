@@ -102,6 +102,10 @@
               dotnet test ./devops-in-a-day/ApiApp.sln --configuration Release --no-build
     ```
 
+1. `devops-in-a-day/src/ApiApp/Program.cs` 파일을 열어 맨 아래 빈 줄을 하나 추가한 후 커밋하여 푸시합니다.
+
+1. GitHub 액션 워크플로우가 자동으로 실행되는 것을 확인합니다.
+
 ## 4. GitHub 액션 워크플로우 만들기 - 파워 플랫폼 솔루션 내보내기
 
 1. `.github/workflows/export-solution.yml` 파일을 열고 아래와 같이 내용을 입력하여 기본 뼈대를 만듭니다.
@@ -216,6 +220,32 @@
               allow-empty-commit: true
     ```
 
+1. 리포지토리의 `Actions` 탭을 클릭하여 `Export Power Platform Solution` 👉 `Run workflow` 메뉴를 선택하고 아래 내용을 입력한 후 `Run workflow` 버튼을 클릭합니다.
+
+   - Solution Name: `GPPBParticipant{{숫자}}`
+   - Solution Path: `devops-in-a-day/src/PowerPlatform`
+   - Solution Type: `Unmanaged`
+
+1. GitHub 액션 워크플로우가 실행되는 것을 확인합니다.
+
+1. GitHub 액션 워크플로우 종료 이후 Pull Request를 생성합니다.
+
+    ![Pull Request #1][image-01]
+
+   > **NOTE**: 이 때 자신의 리포지토리로 Pull Request 생성하는 것을 잊지 마세요!
+   >
+   > ![Pull Request #2][image-02]
+
+   Pull Request를 생성합니다.
+
+    ![Pull Request #3][image-03]
+
+1. Pull Request를 병합합니다.
+
+    ![Pull Request #4][image-04]
+
+1. 병합 후 `main` 브랜치에서 병합 내용을 확인합니다.
+
 ## 5. GitHub 액션 워크플로우 만들기 - 파워 플랫폼 솔루션 배포하기
 
 1. 먼저 환경에 이미 있는 솔루션을 삭제합니다.
@@ -318,6 +348,14 @@
               force-overwrite: true
     ```
 
+1. 리포지토리의 `Actions` 탭을 클릭하여 `Deploy Power Platform Solution` 👉 `Run workflow` 메뉴를 선택하고 아래 내용을 입력한 후 `Run workflow` 버튼을 클릭합니다.
+
+   - Solution Name: `GPPBParticipant{{숫자}}`
+   - Solution Path: `devops-in-a-day/src/PowerPlatform`
+   - Solution Type: `Unmanaged`
+
+1. GitHub 액션 워크플로우가 실행되는 것을 확인합니다.
+
 1. 파워 오토메이트 웹사이트에서 솔루션이 다시 들어온 것을 확인하고 그 안으로 들어갑니다.
 
 1. 클라우드 흐름을 선택하고 편집 모드로 들어갑니다.
@@ -329,6 +367,11 @@
 축하합니다! GitHub 액션 워크플로우를 이용해서 파워 플랫폼 솔루션을 내보내기 하고 배포하기를 해 봤습니다.
 
 > **NOTE**: 만약 GitHub 액션 워크플로우 작성을 마치지 못했다면 [여기](./.github/workflows/)에서 코드를 확인할 수 있습니다.
+
+[image-01]: ./images/05-image-01.png
+[image-02]: ./images/05-image-02.png
+[image-03]: ./images/05-image-03.png
+[image-04]: ./images/05-image-04.png
 
 [gh actions]: https://github.com/features/actions
 
