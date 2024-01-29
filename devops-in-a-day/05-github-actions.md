@@ -248,6 +248,12 @@
 
 ## 5. GitHub 액션 워크플로우 만들기 - 파워 플랫폼 솔루션 배포하기
 
+1. 아래 명령어를 통해 파워 플랫폼에 로그인합니다. URL 값은 앞서 복사한 환경 URL을 입력합니다. 환경 URL은 `https://org{{조직 ID}}.crm{{숫자}}.dynamics.com/`와 같은 형식입니다.
+
+    ```bash
+    pac auth create --name PARTICIPANT --url {{Participant 환경 URL}} --applicationId {{애플리케이션 ID}} --clientSecret {{클라이언트 비밀}} --tenant {{디렉터리 ID}}
+    ```
+
 1. 먼저 환경에 이미 있는 솔루션을 삭제합니다.
 
     ```bash
