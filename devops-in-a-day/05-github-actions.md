@@ -43,6 +43,8 @@
 
 ## 3. GitHub 액션 워크플로우 만들기 - 백엔드 API 빌드
 
+> **NOTE**: 아래 작성할 YAML 파일은 들여쓰기가 아주 중요합니다. 들여쓰기가 잘못되면 GitHub 액션 워크플로우가 실행되지 않습니다.
+
 1. `.github/workflows/build-backend-api.yml` 파일을 열고 아래와 같이 내용을 입력하여 기본 뼈대를 만듭니다.
 
     ```yml
@@ -56,6 +58,7 @@
         paths:
           - 'devops-in-a-day/src/ApiApp/**'
 
+    # ⬆️ 이벤트 트리거 조건을 설정합니다.
     ```
 
 1. 아래와 같이 내용을 입력하여 빌드 서버를 구성합니다. 여기서는 Ubuntu 리눅스를 사용합니다.
@@ -64,6 +67,8 @@
     jobs:
       build:
         runs-on: ubuntu-latest
+
+        # ⬆️ 빌드 서버를 설정합니다.
     ```
 
 1. 아래와 같이 내용을 입력하여 리포지토리의 최신 소스 코드를 가져옵니다.
@@ -72,6 +77,8 @@
         steps:
           - name: Checkout repository
             uses: actions/checkout@v4
+
+          # ⬆️ 리포지토리 체크아웃 액션
     ```
 
 1. 아래와 같이 내용을 입력하여 최신 .NET SDK를 설치합니다.
@@ -81,6 +88,8 @@
             uses: actions/setup-dotnet@v4
             with:
               dotnet-version: 8.x
+
+          # ⬆️ .NET SDK 설정 액션
     ```
 
 1. 아래와 같이 내용을 입력하여 최신 백엔드 API 앱을 빌드하고 테스트합니다.
@@ -90,16 +99,22 @@
             shell: bash
             run: |
               dotnet restore ./devops-in-a-day/ApiApp.sln
+
+          # ⬆️ 패키지 인스톨 액션
     
           - name: Build
             shell: bash
             run: |
               dotnet build ./devops-in-a-day/ApiApp.sln --configuration Release
     
+          # ⬆️ 앱 빌드 액션
+
           - name: Run tests
             shell: bash
             run: |
               dotnet test ./devops-in-a-day/ApiApp.sln --configuration Release --no-build
+    
+          # ⬆️ 앱 테스트 액션
     ```
 
 1. `devops-in-a-day/src/ApiApp/Program.cs` 파일을 열어 맨 아래 빈 줄을 하나 추가한 후 커밋하여 푸시합니다.
@@ -140,6 +155,8 @@
             description: 'Solution Type'
             required: true
             default: 'Unmanaged'
+
+    # ⬆️ 이벤트 트리거 조건을 설정합니다.
     ```
 
 1. 아래와 같이 내용을 입력하여 환경 변수를 설정합니다.
@@ -150,6 +167,8 @@
       APPLICATION_ID: ${{ secrets.APPLICATION_ID }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       DIRECTORY_ID: ${{ secrets.DIRECTORY_ID }}
+
+    # ⬆️ 환경 변수를 설정합니다.
     ```
 
 1. 아래와 같이 내용을 입력하여 GitHub 액션의 권한을 설정합니다.
@@ -157,6 +176,8 @@
     ```yml
     permissions:
       contents: write
+
+    # ⬆️ GitHub 액션 권한을 설정합니다.
     ```
 
 1. 아래와 같이 내용을 입력하여 빌드 서버를 구성합니다. 여기서는 Ubuntu 리눅스를 사용합니다.
@@ -165,6 +186,8 @@
     jobs:
       export_solution:
         runs-on: ubuntu-latest
+
+        # ⬆️ 빌드 서버를 설정합니다.
     ```
 
 1. 아래와 같이 내용을 입력하여 리포지토리의 최신 소스 코드를 가져옵니다.
@@ -173,6 +196,8 @@
         steps:
           - name: Checkout repository
             uses: actions/checkout@v4
+
+          # ⬆️ 리포지토리 체크아웃 액션
     ```
 
 1. 아래와 같이 내용을 입력하여 최신 파워 플랫폼 CLI를 설치합니다.
@@ -180,6 +205,8 @@
     ```yml
           - name: Install Power Platform Tools
             uses: microsoft/powerplatform-actions/actions-install@v1
+
+          # ⬆️ 파워 플랫폼 CLI 설치 액션
     ```
 
 1. 아래와 같이 내용을 입력하여 현재 접속한 파워 플랫폼 환경을 확인합니다.
@@ -192,6 +219,8 @@
               app-id: ${{ env.APPLICATION_ID }}
               client-secret: ${{ env.CLIENT_SECRET }}
               tenant-id: ${{ env.DIRECTORY_ID }}
+
+          # ⬆️ 현재 작업할 파워 플랫폼 환경 체크 액션
     ```
 
 1. 아래와 같이 내용을 입력하여 파워 플랫폼 솔루션을 내보내기 합니다.
@@ -206,6 +235,8 @@
               tenant-id: ${{ env.DIRECTORY_ID }}
               solution-name: ${{ github.event.inputs.solutionName }}
               solution-output-file: ${{ github.event.inputs.solutionPath}}/${{ github.event.inputs.solutionName }}.zip
+
+          # ⬆️ 파워 플랫폼 솔루션 내보내기 액션
     ```
 
 1. 아래와 같이 내용을 입력하여 내보내기 한 솔루션의 압축을 해제합니다.
@@ -218,6 +249,8 @@
               solution-folder: ${{ github.event.inputs.solutionPath }}/${{ github.event.inputs.solutionName }}
               solution-type: ${{ github.event.inputs.solutionType }}
               overwrite-files: true
+
+          # ⬆️ 파워 플랫폼 솔루션 압축 풀기 액션
     ```
 
 1. 아래와 같이 내용을 입력하여 내보내기한 솔루션을 새 브랜치로 만들어 커밋합니다.
@@ -230,6 +263,8 @@
               solution-target-folder: ${{ github.event.inputs.solutionPath}}/${{ github.event.inputs.solutionName }}
               repo-token: ${{ secrets.GITHUB_TOKEN }}
               allow-empty-commit: true
+
+          # ⬆️ 파워 플랫폼 솔루션 새 브랜치 커밋/푸시 액션
     ```
 
 1. 리포지토리의 `Actions` 탭을 클릭하여 `Export Power Platform Solution` 👉 `Run workflow` 메뉴를 선택하고 아래 내용을 입력한 후 `Run workflow` 버튼을 클릭합니다.
@@ -294,6 +329,8 @@
             description: 'Solution Type'
             required: true
             default: 'Unmanaged'
+
+    # ⬆️ 이벤트 트리거 조건을 설정합니다.
     ```
 
 1. 아래와 같이 내용을 입력하여 환경 변수를 설정합니다.
@@ -304,6 +341,8 @@
       APPLICATION_ID: ${{ secrets.APPLICATION_ID }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       DIRECTORY_ID: ${{ secrets.DIRECTORY_ID }}
+
+    # ⬆️ 환경 변수를 설정합니다.
     ```
 
 1. 아래와 같이 내용을 입력하여 빌드 서버를 구성합니다. 여기서는 Ubuntu 리눅스를 사용합니다.
@@ -312,6 +351,8 @@
     jobs:
       deploy_solution:
         runs-on: ubuntu-latest
+
+        # ⬆️ 빌드 서버를 설정합니다.
     ```
 
 1. 아래와 같이 내용을 입력하여 리포지토리의 최신 소스 코드를 가져옵니다.
@@ -320,6 +361,8 @@
         steps:
           - name: Checkout repository
             uses: actions/checkout@v4
+
+          # ⬆️ 리포지토리 체크아웃 액션
     ```
 
 1. 아래와 같이 내용을 입력하여 최신 파워 플랫폼 CLI를 설치합니다.
@@ -327,6 +370,8 @@
     ```yml
           - name: Install Power Platform Tools
             uses: microsoft/powerplatform-actions/actions-install@v1
+
+          # ⬆️ 파워 플랫폼 CLI 설치 액션
     ```
 
 1. 아래와 같이 내용을 입력하여 현재 접속한 파워 플랫폼 환경을 확인합니다.
@@ -339,6 +384,8 @@
               app-id: ${{ env.APPLICATION_ID }}
               client-secret: ${{ env.CLIENT_SECRET }}
               tenant-id: ${{ env.DIRECTORY_ID }}
+
+          # ⬆️ 현재 작업할 파워 플랫폼 환경 체크 액션
     ```
 
 1. 아래와 같이 내용을 입력하여 솔루션을 zip 파일로 압축합니다.
@@ -350,6 +397,8 @@
               solution-file: ${{ github.event.inputs.solutionPath }}/${{ github.event.inputs.solutionName }}.zip
               solution-folder: ${{ github.event.inputs.solutionPath }}/${{ github.event.inputs.solutionName }}
               solution-type: ${{ github.event.inputs.solutionType }}
+
+          # ⬆️ 플랫폼 솔루션 압축 액션
     ```
 
 1. 아래와 같이 내용을 입력하여 파워 플랫폼 솔루션을 배포합니다.
@@ -364,6 +413,8 @@
               tenant-id: ${{ env.DIRECTORY_ID }}
               solution-file: ${{ github.event.inputs.solutionPath }}/${{ github.event.inputs.solutionName }}.zip
               force-overwrite: true
+
+          # ⬆️ 파워 플랫폼 솔루션 배포 액션
     ```
 
 1. 리포지토리의 `Actions` 탭을 클릭하여 `Deploy Power Platform Solution` 👉 `Run workflow` 메뉴를 선택하고 아래 내용을 입력한 후 `Run workflow` 버튼을 클릭합니다.
