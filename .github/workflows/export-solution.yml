@@ -1,0 +1,71 @@
+name: Export Power Platform Solution
+
+on:
+  workflow_dispatch:
+    inputs:
+      solutionName:
+        description: 'Solution Name'
+        required: true
+        default: 'GPPB'
+      solutionPath:
+        description: 'Solution Path'
+        required: true
+        default: 'devops-in-a-day/src/PowerPlatform'
+      solutionType:
+        description: 'Solution Type'
+        required: true
+        default: 'Unmanaged'
+
+env:
+  ENVIRONMENT_URL: ${{ secrets.ENVIRONMENT_URL }}
+  APPLICATION_ID: ${{ secrets.APPLICATION_ID }}
+  CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+  DIRECTORY_ID: ${{ secrets.DIRECTORY_ID }}
+
+permissions:
+  contents: write
+
+jobs:
+  export_solution:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Power Platform Tools
+        uses: microsoft/powerplatform-actions/actions-install@v1
+
+      - name: Who am I?
+        uses: microsoft/powerplatform-actions/who-am-i@v1
+        with:
+          environment-url: ${{ env.ENVIRONMENT_URL }}
+          app-id: ${{ env.APPLICATION_ID }}
+          client-secret: ${{ env.CLIENT_SECRET }}
+          tenant-id: ${{ env.DIRECTORY_ID }}
+
+      - name: Export solution
+        uses: microsoft/powerplatform-actions/export-solution@v1
+        with:
+          environment-url: ${{ env.ENVIRONMENT_URL }}
+          app-id: ${{ env.APPLICATION_ID }}
+          client-secret: ${{ env.CLIENT_SECRET }}
+          tenant-id: ${{ env.DIRECTORY_ID }}
+          solution-name: ${{ github.event.inputs.solutionName }}
+          solution-output-file: ${{ github.event.inputs.solutionPath}}/${{ github.event.inputs.solutionName }}.zip
+  
+      - name: Unpack solution
+        uses: microsoft/powerplatform-actions/unpack-solution@v1
+        with:
+          solution-file: ${{ github.event.inputs.solutionPath }}/${{ github.event.inputs.solutionName }}.zip
+          solution-folder: ${{ github.event.inputs.solutionPath }}/${{ github.event.inputs.solutionName }}
+          solution-type: ${{ github.event.inputs.solutionType }}
+          overwrite-files: true
+  
+      - name: Branch solution
+        uses: microsoft/powerplatform-actions/branch-solution@v1
+        with:
+          solution-folder: ${{ github.event.inputs.solutionPath}}/${{ github.event.inputs.solutionName }}
+          solution-target-folder: ${{ github.event.inputs.solutionPath}}/${{ github.event.inputs.solutionName }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          allow-empty-commit: true
