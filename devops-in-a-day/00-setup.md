@@ -32,6 +32,23 @@
 
     ![GitHub Codespaces 인스턴스 생성하기][image-01]
 
+1. GitHub Codespaces 인스턴스 안의 터미널에서 아래 명령어를 실행시켜 제대로 만들어졌는지 확인합니다.
+
+    ```bash
+    git remote -v
+    ```
+
+   만약 아래와 같이 나오면 제대로 만들어진 것입니다.
+
+    ```text
+    origin  https://github.com/<자신의 GitHub ID>/Power-Platform-App-Dev-in-a-Day-KR (fetch)
+    origin  https://github.com/<자신의 GitHub ID>/Power-Platform-App-Dev-in-a-Day-KR (push)
+    upstream        https://github.com/microsoft/Power-Platform-App-Dev-in-a-Day-KR.git (fetch)
+    upstream        https://github.com/microsoft/Power-Platform-App-Dev-in-a-Day-KR.git (push)
+    ```
+
+   > **NOTE**: 만약 위와 같이 보이지 않는다면, GitHub Codespaces 인스턴스를 삭제하고 위 순서대로 다시 만들어야 합니다.
+
 ## 3. GitHub Codespaces 개발 환경 확인
 
 1. 아래 명령어를 실행시켜 필요한 개발 도구가 설치되어 있는지 확인합니다.
@@ -58,7 +75,7 @@
     curl <복사한 URL>
     ```
 
-1. 아래 명령어를 통해 로그인이 잘 되었는지 확인합니다.
+1. `azd auth login` 명령어를 실행시켰던 터미널로 돌아가 로그인이 되었는지 확인하고, 아래 명령어를 통해 로그인이 잘 되었는지 확인합니다.
 
     ```bash
     azd auth login --check-status
@@ -78,7 +95,7 @@
     curl <복사한 URL>
     ```
 
-1. 로그인 후 현재 설정되어 있는 구독을 확인합니다.
+1. `az login` 명령어를 내렸던 터미널로 돌아가서 로그인이 된 것을 확인한 후 현재 설정되어 있는 구독을 확인합니다.
 
     ```bash
     az account show
@@ -92,7 +109,7 @@
 
    그러면 구독 리스트를 볼 수 있습니다. 아래는 예시입니다.
 
-    ```bash
+    ```text
     Azure Subscription 1
     Azure GPPB
     My Subscription
