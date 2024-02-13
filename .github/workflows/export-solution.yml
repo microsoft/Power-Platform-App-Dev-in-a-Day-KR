@@ -69,3 +69,5 @@ jobs:
           solution-target-folder: ${{ github.event.inputs.solutionPath}}/${{ github.event.inputs.solutionName }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           allow-empty-commit: true
+       
+          
