@@ -37,8 +37,6 @@
     ```bash
     mkdir -p .github/workflows
     touch .github/workflows/build-backend-api.yml
-    touch .github/workflows/export-solution.yml
-    touch .github/workflows/deploy-solution.yml
     ```
 
 ## 3. GitHub 액션 워크플로우 만들기 - 백엔드 API 빌드
@@ -134,6 +132,19 @@
 1. GitHub 액션 워크플로우가 자동으로 실행되는 것을 확인합니다.
 
 ## 4. GitHub 액션 워크플로우 만들기 - 파워 플랫폼 솔루션 내보내기
+
+1. GitHub 코드스페이스에서 GitHub 액션 작업을 위해 아래 명령어를 통해 작업 디렉토리로 이동합니다.
+
+    ```bash
+    cd $CODESPACE_VSCODE_FOLDER
+    ```
+
+1. 아래 명령어를 차례로 실행시켜 GitHub 액션 워크플로우를 위한 기본 구조를 만듭니다.
+
+    ```bash
+    mkdir -p .github/workflows
+    touch .github/workflows/export-solution.yml
+    ```
 
 1. `.github/workflows/export-solution.yml` 파일을 열고 아래와 같이 내용을 입력하여 기본 뼈대를 만듭니다.
 
@@ -282,18 +293,32 @@
    > **NOTE**: 이 때 자신의 리포지토리로 Pull Request 생성하는 것을 잊지 마세요!
    >
    > ![Pull Request #2][image-02]
+   > ![Pull Request #3][image-03]
 
    Pull Request를 생성합니다.
 
-    ![Pull Request #3][image-03]
+    ![Pull Request #4][image-04]
 
 1. Pull Request를 병합합니다.
 
-    ![Pull Request #4][image-04]
+    ![Pull Request #5][image-05]
 
 1. 병합 후 `main` 브랜치에서 병합 내용을 확인합니다.
 
 ## 5. GitHub 액션 워크플로우 만들기 - 파워 플랫폼 솔루션 배포하기
+
+1. GitHub 코드스페이스에서 GitHub 액션 작업을 위해 아래 명령어를 통해 작업 디렉토리로 이동합니다.
+
+    ```bash
+    cd $CODESPACE_VSCODE_FOLDER
+    ```
+
+1. 아래 명령어를 차례로 실행시켜 GitHub 액션 워크플로우를 위한 기본 구조를 만듭니다.
+
+    ```bash
+    mkdir -p .github/workflows
+    touch .github/workflows/deploy-solution.yml
+    ```
 
 1. 아래 명령어를 통해 파워 플랫폼에 로그인합니다. URL 값은 앞서 복사한 환경 URL을 입력합니다. 환경 URL은 `https://org{{조직 ID}}.crm{{숫자}}.dynamics.com/`와 같은 형식입니다.
 
@@ -441,6 +466,7 @@
 [image-02]: ./images/05-image-02.png
 [image-03]: ./images/05-image-03.png
 [image-04]: ./images/05-image-04.png
+[image-05]: ./images/05-image-05.png
 
 [gh actions]: https://github.com/features/actions
 
