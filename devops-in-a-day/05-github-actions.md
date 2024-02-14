@@ -293,14 +293,15 @@
    > **NOTE**: 이 때 자신의 리포지토리로 Pull Request 생성하는 것을 잊지 마세요!
    >
    > ![Pull Request #2][image-02]
+   > ![Pull Request #3][image-03]
 
    Pull Request를 생성합니다.
 
-    ![Pull Request #3][image-03]
+    ![Pull Request #4][image-04]
 
 1. Pull Request를 병합합니다.
 
-    ![Pull Request #4][image-04]
+    ![Pull Request #5][image-05]
 
 1. 병합 후 `main` 브랜치에서 병합 내용을 확인합니다.
 
@@ -465,6 +466,7 @@
 [image-02]: ./images/05-image-02.png
 [image-03]: ./images/05-image-03.png
 [image-04]: ./images/05-image-04.png
+[image-05]: ./images/05-image-05.png
 
 [gh actions]: https://github.com/features/actions
 
