@@ -1,0 +1,69 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_gppb-5f73c2c070d9033330-5fa4442a8c8d3e6e1f": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "pp04_sharedgppb5f73c2c070d90333305fa4442a8c8d3e6e1f_c51c7"
+        },
+        "api": {
+          "name": "shared_gppb-5f73c2c070d9033330-5fa4442a8c8d3e6e1f",
+          "logicalName": "pp04_gppb"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "238882e0-5cfe-4f84-9aa7-6a2063b296e9"
+          },
+          "type": "Request",
+          "kind": "Button",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "required": []
+            }
+          }
+        }
+      },
+      "actions": {
+        "GetWeatherForecast": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "84e52c96-a8d5-40a5-834b-80c19c583ed2"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_gppb-5f73c2c070d9033330-5fa4442a8c8d3e6e1f",
+              "operationId": "GetWeatherForecast",
+              "apiId": ""
+            },
+            "parameters": {},
+            "authentication": {
+              "type": "Raw",
+              "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+            }
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

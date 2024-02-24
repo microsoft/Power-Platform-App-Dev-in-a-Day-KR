@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - gppbkr
       - 'feature/*'
     paths:
       - 'devops-in-a-day/src/ApiApp/**'
