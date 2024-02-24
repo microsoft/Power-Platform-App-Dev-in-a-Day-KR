@@ -1,0 +1,52 @@
+name: Build Backend API
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/*'
+    paths:
+      - 'devops-in-a-day/src/ApiApp/**'
+
+# ⬆️ 이벤트 트리거 조건을 설정합니다.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # ⬆️ 빌드 서버를 설정합니다.
+
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ⬆️ 리포지토리 체크아웃 액션
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+
+      # ⬆️ .NET SDK 설정 액션
+
+            - name: Restore NuGet packages
+        shell: bash
+        run: |
+          dotnet restore ./devops-in-a-day/ApiApp.sln
+
+      # ⬆️ 패키지 인스톨 액션
+
+      - name: Build
+        shell: bash
+        run: |
+          dotnet build ./devops-in-a-day/ApiApp.sln --configuration Release
+
+      # ⬆️ 앱 빌드 액션
+
+      - name: Run tests
+        shell: bash
+        run: |
+          dotnet test ./devops-in-a-day/ApiApp.sln --configuration Release --no-build
+
+      # ⬆️ 앱 테스트 액션
